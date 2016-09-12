@@ -3,6 +3,7 @@
 
 from __future__ import unicode_literals
 from bst import Node, Bst
+import pytest
 
 
 def test_node_init_value():
@@ -93,3 +94,20 @@ def test_compare_self_to_equal_value2():
     node2 = Node(7)
     node1.compare_self_to_a_node(node2)
     assert node2.right is None
+
+
+def test_bst_init():
+    bst = Bst()
+    assert bst.head is None
+
+
+@pytest.fixture(scope='function')
+def bst():
+    bst = Bst()
+    return bst
+
+
+def test_insert(bst):
+    bst.insert(5)
+    assert bst.head.value == 5
+
