@@ -13,18 +13,19 @@ class Node(object):
 
     def compare_self_to_a_node(self, n2):
         """Assume n1 and n2 are instances of Node."""
-        if self.value > n2.value:
-            if n2.right is None:
-                n2.right = self
-            else:
-                n2 = n2.right
-                self.compare_self_to_a_node(n2)
-        elif self.value < n2.value:
-            if n2.left is None:
-                n2.left = self
-            else:
-                n2 = n2.left
-                self.compare_self_to_a_node(n2)
+        if self.value != n2.value:
+            if self.value > n2.value:
+                if n2.right is None:
+                    n2.right = self
+                else:
+                    n2 = n2.right
+                    self.compare_self_to_a_node(n2)
+            elif self.value < n2.value:
+                if n2.left is None:
+                    n2.left = self
+                else:
+                    n2 = n2.left
+                    self.compare_self_to_a_node(n2)
 
 
 class Bst(object):

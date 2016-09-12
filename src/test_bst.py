@@ -71,3 +71,25 @@ def test_compare_self_to_a_smaller_node2():
     node2 = Node(5)
     node1.compare_self_to_a_node(node2)
     assert node2.left is None
+
+
+def test_compare_self_to_equal_value1():
+    """
+    Test that function compare_self_to_a_node(self, n)
+    doesn't change n.left = None if self.value is equal to n.value.
+    """
+    node1 = Node(7)
+    node2 = Node(7)
+    node1.compare_self_to_a_node(node2)
+    assert node2.left is None
+
+
+def test_compare_self_to_equal_value2():
+    """
+    Test that function compare_self_to_a_node(self, n)
+    doesn't change n.right = None if self.value is equal to n.value.
+    """
+    node1 = Node(7)
+    node2 = Node(7)
+    node1.compare_self_to_a_node(node2)
+    assert node2.right is None
