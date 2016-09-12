@@ -40,7 +40,3 @@ class Bst(object):
             self.head = new_node
         else:
             new_node.compare_self_to_a_node(self.head)
-
-                
-
-

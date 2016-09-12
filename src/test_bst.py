@@ -102,12 +102,55 @@ def test_bst_init():
 
 
 @pytest.fixture(scope='function')
-def bst():
+def bst_empty():
     bst = Bst()
     return bst
 
 
-def test_insert(bst):
+def test_insert(bst_empty):
+    bst_empty.insert(5)
+    assert bst_empty.head.value == 5
+
+
+def test_insert_left1(bst_empty):
+    bst_empty.insert(5)
+    bst_empty.insert(1)
+    assert bst_empty.head.left.value == 1
+
+
+def test_insert_right1(bst_empty):
+    bst_empty.insert(5)
+    bst_empty.insert(10)
+    assert bst_empty.head.right.value == 10
+
+
+@pytest.fixture(scope='function')
+def bst_3():
+    bst = Bst()
+    bst.insert(10)
     bst.insert(5)
-    assert bst.head.value == 5
+    bst.insert(15)
+    bst.node_left = bst.head.left
+    bst.node_right = bst.head.right
+    return bst
+
+
+def test_insert_left_left(bst_3):
+    bst_3.insert(2)
+    assert bst_3.node_left.left.value == 2
+
+
+def test_insert_left_right(bst_3):
+    bst_3.insert(7)
+    assert bst_3.node_left.right.value == 7
+
+
+def test_insert_right_left(bst_3):
+    bst_3.insert(12)
+    assert bst_3.node_right.left.value == 12
+
+
+def test_insert_right_right(bst_3):
+    bst_3.insert(17)
+    assert bst_3.node_right.right.value == 17
 
