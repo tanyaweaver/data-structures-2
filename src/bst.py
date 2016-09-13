@@ -18,15 +18,16 @@ class Node(object):
             if self.value > parent.value:
                 if parent.right is None:
                     parent.right = self
+
                 else:
                     parent = parent.right
-                    self.compare_self_to_a_node(parent)
+                    return self.compare_self_to_a_node(parent)
             elif self.value < parent.value:
                 if parent.left is None:
                     parent.left = self
                 else:
                     parent = parent.left
-                    self.compare_self_to_a_node(parent)
+                    return self.compare_self_to_a_node(parent)
 
     def compare_nodes(self, n2):
         """Assume n1 and n2 are instances of Node."""
@@ -45,13 +46,15 @@ class Node(object):
                     parent = parent.left
                     return self.compare_nodes(parent)
         else:
-            return True       
+            return True
+
 
 
 class Bst(object):
     """Define binary search tree class."""
     def __init__(self, iterable=None):
         self.head = None
+        self.counter = 0
 
     def insert(self, value):
         """
@@ -63,6 +66,8 @@ class Bst(object):
             self.head = new_node
         else:
             new_node.compare_self_to_a_node(self.head)
+        self.counter += 1
+
 
     def contains(self, value):
         """
@@ -77,4 +82,12 @@ class Bst(object):
                 return True
             else:
                 return False
+
+    def size(self):
+        """
+        Return the integer size of the bst. 
+        Return zero if the bst is empty.
+        """
+        return self.counter
+
 

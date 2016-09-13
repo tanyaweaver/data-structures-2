@@ -173,3 +173,16 @@ def test_contains_false(bst_3):
 
 def test_contains_empty(bst_empty):
     assert bst_empty.contains(5) is False
+
+
+def test_size_empty(bst_empty):
+    assert bst_empty.size() == 0
+
+
+def test_size_3(bst_3):
+    assert bst_3.size() == 3
+
+
+def test_size_4(bst_3):
+    bst_3.insert(18)
+    assert bst_3.size() == 4
