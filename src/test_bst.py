@@ -6,110 +6,117 @@ from bst import Node, Bst
 import pytest
 
 
-def test_node_init_value():
-    """
-    Test that a new instance of Node(value) has self.value == value.
-    """
+@pytest.fixture(scope='function')
+def node():
     node = Node(3)
-    assert node.value == 3
-
-
-def test_node_init_selfleft():
-    """
-    Test that a new instance of Node(value) has self.left == None.
-    """
-    node = Node(3)
-    assert node.left is None
-
-
-def test_node_init_selfright():
-    """
-    Test that a new instance of Node(value) has self.right == None.
-    """
-    node = Node(3)
-    assert node.right is None
-
-
-def test_node_init_depth():
-    node = Node(1)
-    assert node.depth == 1
-
-
-def test_compare_self_to_a_bigger_node1():
-    """
-    Test that function compare_self_to_a_node(self, n)
-    assigns n.left = self.value if self.value is smaller than n.value.
-    """
-    node1 = Node(3)
-    node2 = Node(5)
-    node2.compare_self_to_a_node(node1)
-    assert node2.left.value == 3
-
-
-def test_compare_self_to_a_bigger_node2():
-    """
-    Test that function compare_self_to_a_node(self, n)
-    doesn't change n.right = None if self.value is smaller than n.value.
-    """
-    node1 = Node(3)
-    node2 = Node(5)
-    node2.compare_self_to_a_node(node1)
-    assert node2.right is None
-
-
-def test_compare_self_to_a_smaller_node1():
-    """
-    Test that function compare_self_to_a_node(self, n)
-    assigns n.right = self.value if self.value is bigger than n.value.
-    """
-    node1 = Node(7)
-    node2 = Node(5)
-    node2.compare_self_to_a_node(node1)
-    assert node2.right.value == 7
-
-
-def test_compare_self_to_a_smaller_node2():
-    """
-    Test that function compare_self_to_a_node(self, n)
-    doesn't change n.left = None if self.value is bigger than n.value.
-    """
-    node1 = Node(7)
-    node2 = Node(5)
-    node2.compare_self_to_a_node(node1)
-    assert node2.left is None
-
-
-def test_compare_self_to_equal_value1():
-    """
-    Test that function compare_self_to_a_node(self, n)
-    doesn't change n.left = None if self.value is equal to n.value.
-    """
-    node1 = Node(7)
-    node2 = Node(7)
-    node2.compare_self_to_a_node(node1)
-    assert node2.left is None
-
-
-def test_compare_self_to_equal_value2():
-    """
-    Test that function compare_self_to_a_node(self, n)
-    doesn't change n.right = None if self.value is equal to n.value.
-    """
-    node1 = Node(7)
-    node2 = Node(7)
-    node2.compare_self_to_a_node(node1)
-    assert node2.right is None
-
-
-def test_bst_init():
-    bst = Bst()
-    assert bst.head is None
+    return node
 
 
 @pytest.fixture(scope='function')
 def bst_empty():
     bst = Bst()
     return bst
+
+
+@pytest.fixture(scope='function')
+def bst_3():
+    bst = Bst()
+    bst.insert(10)
+    bst.insert(5)
+    bst.insert(15)
+    bst.node_left = bst.head.left
+    bst.node_right = bst.head.right
+    return bst
+
+
+def test_node_init_value(node):
+    """
+    Test that a new instance of Node(value) has self.value == value.
+    """
+    assert node.value == 3
+
+
+def test_node_init_selfleft(node):
+    """
+    Test that a new instance of Node(value) has self.left == None.
+    """
+    assert node.left is None
+
+
+def test_node_init_selfright(node):
+    """
+    Test that a new instance of Node(value) has self.right == None.
+    """
+    assert node.right is None
+
+
+def test_node_init_depth(node):
+    assert node.depth == 1
+
+
+def test_compare_self_to_a_bigger_node1(node):
+    """
+    Test that function compare_self_to_a_node(self, n)
+    assigns n.left = self.value if self.value is smaller than n.value.
+    """
+    node2 = Node(5)
+    node2.compare_self_to_a_node(node)
+    assert node2.left.value == 3
+
+
+def test_compare_self_to_a_bigger_node2(node):
+    """
+    Test that function compare_self_to_a_node(self, n)
+    doesn't change n.right = None if self.value is smaller than n.value.
+    """
+    node2 = Node(5)
+    node2.compare_self_to_a_node(node)
+    assert node2.right is None
+
+
+def test_compare_self_to_a_smaller_node1(node):
+    """
+    Test that function compare_self_to_a_node(self, n)
+    assigns n.right = self.value if self.value is bigger than n.value.
+    """
+    node1 = Node(7)
+    node.compare_self_to_a_node(node1)
+    assert node.right.value == 7
+
+
+def test_compare_self_to_a_smaller_node2(node):
+    """
+    Test that function compare_self_to_a_node(self, n)
+    doesn't change n.left = None if self.value is bigger than n.value.
+    """
+    node1 = Node(7)
+    node.compare_self_to_a_node(node1)
+    assert node.left is None
+
+
+def test_compare_self_to_equal_value1(node):
+    """
+    Test that function compare_self_to_a_node(self, n)
+    doesn't change n.left = None if self.value is equal to n.value.
+    """
+    node1 = Node(3)
+    node.compare_self_to_a_node(node1)
+    assert node.left is None
+
+
+def test_compare_self_to_equal_value2(node):
+    """
+    Test that function compare_self_to_a_node(self, n)
+    doesn't change n.right = None if self.value is equal to n.value.
+    """
+    node1 = Node(3)
+    node.compare_self_to_a_node(node1)
+    assert node.right is None
+
+
+def test_bst_init():
+    bst = Bst()
+    assert bst.head is None
 
 
 def test_insert(bst_empty):
@@ -127,17 +134,6 @@ def test_insert_right1(bst_empty):
     bst_empty.insert(5)
     bst_empty.insert(10)
     assert bst_empty.head.right.value == 10
-
-
-@pytest.fixture(scope='function')
-def bst_3():
-    bst = Bst()
-    bst.insert(10)
-    bst.insert(5)
-    bst.insert(15)
-    bst.node_left = bst.head.left
-    bst.node_right = bst.head.right
-    return bst
 
 
 def test_insert_left_left(bst_3):
@@ -192,19 +188,46 @@ def test_size_4(bst_3):
     bst_3.insert(18)
     assert bst_3.size() == 4
 
+def test_depth_node_insert1(node):
+    node.compare_self_to_a_node(Node(5))
+    assert node.depth == 2
 
-def test_depth_insert_empty(bst_empty):
+
+def test_depth_node_insert2(node):
+    node.compare_self_to_a_node(Node(5))
+    node.compare_self_to_a_node(Node(4))
+    assert node.depth == 3
+
+
+def test_depth_node_insert4(node):
+    node.compare_self_to_a_node(Node(5))
+    node.compare_self_to_a_node(Node(4))
+    node.compare_self_to_a_node(Node(8))
+    node.compare_self_to_a_node(Node(7))
+    assert node.depth == 4
+
+
+def test_depth_node_insert5(node):
+    node.compare_self_to_a_node(Node(5))
+    node.compare_self_to_a_node(Node(4))
+    node.compare_self_to_a_node(Node(8))
+    node.compare_self_to_a_node(Node(7))
+    node.compare_self_to_a_node(Node(6))
+    assert node.depth == 5
+
+
+def test_depth_tree_insert1(bst_empty):
     bst_empty.insert(5)
     assert bst_empty.depth() == 1
 
 
-def test_depth_node_insert(bst_empty):
+def test_depth_tree_insert2(bst_empty):
     bst_empty.insert(4)
     bst_empty.insert(5)
     assert bst_empty.depth() == 2
 
 
-def test_depth_node_insert2(bst_empty):
+def test_depth_tree_insert3(bst_empty):
     bst_empty.insert(4)
     bst_empty.insert(5)
     bst_empty.insert(6)

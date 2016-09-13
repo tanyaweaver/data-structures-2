@@ -13,29 +13,46 @@ class Node(object):
         self.right = None
         self.depth = 1
 
+    def find_depth(self):
+        if self.left is not None:
+            left_depth = self.left.depth
+        else:
+            left_depth = 0
+        if self.right is not None:
+            right_depth = self.right.depth
+        else:
+            right_depth = 0
+        self.depth = 1 + max(left_depth, right_depth)
+        return self.depth
+
     def compare_self_to_a_node(self, new_node):
         """Assume n1 and n2 are instances of Node."""
+        #import pdb; pdb.set_trace()
         parent = self
-        current_depth = 0
+        visited_nodes = [self]
         while True:
             if parent.value == new_node.value:
                 break
-            current_depth += 1
             if new_node.value > parent.value:
-                parent.depth += 1
                 if parent.right is None:
                     parent.right = new_node
-                    parent.depth = max(parent.depth, current_depth)
+                    while len(visited_nodes) != 0:
+                        visited_node = visited_nodes.pop()
+                        visited_node.depth = visited_node.find_depth()
                     break
                 else:
                     parent = parent.right
+                    visited_nodes.append(parent)
             elif new_node.value < parent.value:
-                parent.depth += 1
                 if parent.left is None:
                     parent.left = new_node
+                    while len(visited_nodes) != 0:
+                        visited_node = visited_nodes.pop()
+                        visited_node.depth = visited_node.find_depth()
                     break
                 else:
                     parent = parent.left
+                    visited_nodes.append(parent)
 
     def compare_nodes(self, n2):
         """Assume n1 and n2 are instances of Node."""
@@ -101,4 +118,4 @@ class Bst(object):
         """
         Return an integer representing the total levels in a tree.
         """
-        return self.depth
+        return self.head.depth
