@@ -6,28 +6,36 @@ from __future__ import unicode_literals
 
 class Node(object):
     """Define class for a node of a binary search tree."""
+
     def __init__(self, val):
         self.value = val
         self.left = None
         self.right = None
+        self.depth = 1
 
-    def compare_self_to_a_node(self, n2):
+    def compare_self_to_a_node(self, new_node):
         """Assume n1 and n2 are instances of Node."""
-        parent = n2
-        if self.value != parent.value:
-            if self.value > parent.value:
+        parent = self
+        current_depth = 0
+        while True:
+            if parent.value == new_node.value:
+                break
+            current_depth += 1
+            if new_node.value > parent.value:
+                parent.depth += 1
                 if parent.right is None:
-                    parent.right = self
-
+                    parent.right = new_node
+                    parent.depth = max(parent.depth, current_depth)
+                    break
                 else:
                     parent = parent.right
-                    return self.compare_self_to_a_node(parent)
-            elif self.value < parent.value:
+            elif new_node.value < parent.value:
+                parent.depth += 1
                 if parent.left is None:
-                    parent.left = self
+                    parent.left = new_node
+                    break
                 else:
                     parent = parent.left
-                    return self.compare_self_to_a_node(parent)
 
     def compare_nodes(self, n2):
         """Assume n1 and n2 are instances of Node."""
@@ -49,9 +57,9 @@ class Node(object):
             return True
 
 
-
 class Bst(object):
     """Define binary search tree class."""
+
     def __init__(self, iterable=None):
         self.head = None
         self.counter = 0
@@ -65,16 +73,15 @@ class Bst(object):
         if self.head is None:
             self.head = new_node
         else:
-            new_node.compare_self_to_a_node(self.head)
+            self.head.compare_self_to_a_node(new_node)
         self.counter += 1
-
 
     def contains(self, value):
         """
         Returns True if the value in the bst, False if not.
         """
         new_node = Node(value)
-        #import pdb; pdb.set_trace()
+        # import pdb; pdb.set_trace()
         if self.head is None:
             return False
         else:
@@ -85,9 +92,13 @@ class Bst(object):
 
     def size(self):
         """
-        Return the integer size of the bst. 
+        Return the integer size of the bst.
         Return zero if the bst is empty.
         """
         return self.counter
 
-
+    def depth(self):
+        """
+        Return an integer representing the total levels in a tree.
+        """
+        return self.depth

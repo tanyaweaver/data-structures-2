@@ -30,6 +30,11 @@ def test_node_init_selfright():
     assert node.right is None
 
 
+def test_node_init_depth():
+    node = Node(1)
+    assert node.depth == 1
+
+
 def test_compare_self_to_a_bigger_node1():
     """
     Test that function compare_self_to_a_node(self, n)
@@ -37,7 +42,7 @@ def test_compare_self_to_a_bigger_node1():
     """
     node1 = Node(3)
     node2 = Node(5)
-    node1.compare_self_to_a_node(node2)
+    node2.compare_self_to_a_node(node1)
     assert node2.left.value == 3
 
 
@@ -48,7 +53,7 @@ def test_compare_self_to_a_bigger_node2():
     """
     node1 = Node(3)
     node2 = Node(5)
-    node1.compare_self_to_a_node(node2)
+    node2.compare_self_to_a_node(node1)
     assert node2.right is None
 
 
@@ -59,7 +64,7 @@ def test_compare_self_to_a_smaller_node1():
     """
     node1 = Node(7)
     node2 = Node(5)
-    node1.compare_self_to_a_node(node2)
+    node2.compare_self_to_a_node(node1)
     assert node2.right.value == 7
 
 
@@ -70,7 +75,7 @@ def test_compare_self_to_a_smaller_node2():
     """
     node1 = Node(7)
     node2 = Node(5)
-    node1.compare_self_to_a_node(node2)
+    node2.compare_self_to_a_node(node1)
     assert node2.left is None
 
 
@@ -81,7 +86,7 @@ def test_compare_self_to_equal_value1():
     """
     node1 = Node(7)
     node2 = Node(7)
-    node1.compare_self_to_a_node(node2)
+    node2.compare_self_to_a_node(node1)
     assert node2.left is None
 
 
@@ -92,7 +97,7 @@ def test_compare_self_to_equal_value2():
     """
     node1 = Node(7)
     node2 = Node(7)
-    node1.compare_self_to_a_node(node2)
+    node2.compare_self_to_a_node(node1)
     assert node2.right is None
 
 
@@ -186,3 +191,21 @@ def test_size_3(bst_3):
 def test_size_4(bst_3):
     bst_3.insert(18)
     assert bst_3.size() == 4
+
+
+def test_depth_insert_empty(bst_empty):
+    bst_empty.insert(5)
+    assert bst_empty.depth() == 1
+
+
+def test_depth_node_insert(bst_empty):
+    bst_empty.insert(4)
+    bst_empty.insert(5)
+    assert bst_empty.depth() == 2
+
+
+def test_depth_node_insert2(bst_empty):
+    bst_empty.insert(4)
+    bst_empty.insert(5)
+    bst_empty.insert(6)
+    assert bst_empty.depth() == 3
