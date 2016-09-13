@@ -154,3 +154,22 @@ def test_insert_right_right(bst_3):
     bst_3.insert(17)
     assert bst_3.node_right.right.value == 17
 
+
+def test_contains_true5(bst_3):
+    assert bst_3.contains(5) is True
+
+
+def test_contains_true15(bst_3):
+    assert bst_3.contains(15) is True
+
+
+def test_contains_true10(bst_3):
+    assert bst_3.contains(10) is True
+
+
+def test_contains_false(bst_3):
+    assert bst_3.contains(6) is False
+
+
+def test_contains_empty(bst_empty):
+    assert bst_empty.contains(5) is False
