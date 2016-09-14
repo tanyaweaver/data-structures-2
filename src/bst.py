@@ -2,6 +2,7 @@
 # -*- coding: utf -8 -*-
 
 from __future__ import unicode_literals
+import random
 
 
 class Node(object):
@@ -75,6 +76,34 @@ class Node(object):
         else:
             return True
 
+    def get_dot(self):
+        """return the tree with root 'self' as a dot graph for visualization"""
+        return "digraph G{\n%s}" % ("" if self.value is None else (
+            "\t%s;\n%s\n" % (
+                self.value,
+                "\n".join(self._get_dot())
+            )
+        ))
+
+    def _get_dot(self):
+        """recursively prepare a dot graph entry for this node."""
+        if self.left is not None:
+            yield "\t%s -> %s;" % (self.value, self.left.value)
+            for i in self.left._get_dot():
+                yield i
+        elif self.right is not None:
+            r = random.randint(0, 1e9)
+            yield "\tnull%s [shape=point];" % r
+            yield "\t%s -> null%s;" % (self.value, r)
+        if self.right is not None:
+            yield "\t%s -> %s;" % (self.value, self.right.value)
+            for i in self.right._get_dot():
+                yield i
+        elif self.left is not None:
+            r = random.randint(0, 1e9)
+            yield "\tnull%s [shape=point];" % r
+            yield "\t%s -> null%s;" % (self.value, r)
+
 
 class Bst(object):
     """Define binary search tree class."""
@@ -85,6 +114,12 @@ class Bst(object):
         """
         self.head = None
         self.counter = 0
+        if iterable is not None:
+            try:
+                for item in iterable:
+                    self.insert(item)
+            except TypeError:
+                self.insert(iterable)
 
     def insert(self, value):
         """
@@ -142,3 +177,31 @@ class Bst(object):
         else:
             right_depth = 0
         return left_depth - right_depth
+
+        def gv(self):
+            return self.head.get_dot
+
+
+if __name__ == '__main__':
+    # bst = Bst([9, 5, 12, 8, 35, 3])
+    # print(bst.head.get_dot())
+
+    import time
+
+    bst1 = Bst([10, 5, 15, 2, 8, 12, 18, 1, 0, 3, 4, 6, 9,
+                11, 13, 15, 16, 17, 20, 19, 20])
+    bst2 = Bst(list(range(1, 21)))
+    start_time_bst1 = time.time()
+    searc_bst1 = bst1.contains(20)
+    end_time_bst1 = time.time()
+    time_bst1 = end_time_bst1 - start_time_bst1
+
+    start_time_bst2 = time.time()
+    searc_bst2 = bst2.contains(20)
+    end_time_bst2 = time.time()
+    time_bst2 = end_time_bst2 - start_time_bst2
+    print('To find the biggest number in a binary search tree with {} nodes,'
+          'it takes: {} - if the tree has depth 0f {},'
+          'and {} - if the tree has depth of {}'
+          .format(bst1.size(), time_bst1, bst1.depth(),
+                  time_bst2, bst2.depth()))
