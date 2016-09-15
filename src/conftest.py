@@ -28,7 +28,7 @@ def bst_3():
     bst.node_right = bst.head.right
     return bst
 
-BST_15 = [10, 5, 15, 2, 7, 12, 20, 1, 3, 6, 8, 11, 13, 18, 22]
+BST_15 = [10, 5, 15, 2, 7, 12, 20, 1, 3, 6, 8, 11, 13, 18, 22, 9]
 
 LIST_30 = list(range(30))
 

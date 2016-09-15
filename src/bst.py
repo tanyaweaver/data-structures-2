@@ -180,6 +180,28 @@ class Bst(object):
             if current_node.left is not None:
                 pending.append(current_node.left)
 
+    def depth_in_order_tr(self):
+        if self.head is None:
+            yield None
+        current_node = self.head
+        visited = []
+        yielded = []
+        while True:
+            if current_node.left is not None and current_node.left not in yielded:
+                visited.append(current_node)
+                current_node = current_node.left
+            else:
+                yield current_node
+                yielded.append(current_node)
+                if current_node.right is not None:
+                    current_node = current_node.right
+                else:
+                    if len(visited) != 0:
+                        current_node = visited.pop()
+                    else:
+                        break
+
+
 
 
 
