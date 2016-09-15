@@ -3,6 +3,7 @@
 
 from __future__ import unicode_literals
 import random
+from collections import deque
 
 
 class Node(object):
@@ -75,34 +76,6 @@ class Node(object):
                     return self._compare_nodes(parent)
         else:
             return True
-
-    def get_dot(self):
-        """return the tree with root 'self' as a dot graph for visualization"""
-        return "digraph G{\n%s}" % ("" if self.value is None else (
-            "\t%s;\n%s\n" % (
-                self.value,
-                "\n".join(self._get_dot())
-            )
-        ))
-
-    def _get_dot(self):
-        """recursively prepare a dot graph entry for this node."""
-        if self.left is not None:
-            yield "\t%s -> %s;" % (self.value, self.left.value)
-            for i in self.left._get_dot():
-                yield i
-        elif self.right is not None:
-            r = random.randint(0, 1e9)
-            yield "\tnull%s [shape=point];" % r
-            yield "\t%s -> null%s;" % (self.value, r)
-        if self.right is not None:
-            yield "\t%s -> %s;" % (self.value, self.right.value)
-            for i in self.right._get_dot():
-                yield i
-        elif self.left is not None:
-            r = random.randint(0, 1e9)
-            yield "\tnull%s [shape=point];" % r
-            yield "\t%s -> null%s;" % (self.value, r)
 
 
 class Bst(object):
@@ -181,10 +154,40 @@ class Bst(object):
         def gv(self):
             return self.head.get_dot
 
+    def breadth_tr(self):
+        if self.head is None:
+            yield None
+        current_node = self.head
+        pending = deque([current_node])
+        while len(pending) != 0:
+            current_node = pending.pop()
+            yield current_node
+            if current_node.left is not None:
+                pending.appendleft(current_node.left)
+            if current_node.right is not None:
+                pending.appendleft(current_node.right)
+
+    def depth_pre_order_tr(self):
+        if self.head is None:
+            yield None
+        current_node = self.head
+        pending = deque([current_node])
+        while len(pending) != 0:
+            current_node = pending.pop()
+            yield current_node
+            if current_node.right is not None:
+                pending.append(current_node.right)
+            if current_node.left is not None:
+                pending.append(current_node.left)
+
+
+
+
+
+
+
 
 if __name__ == '__main__':
-    # bst = Bst([9, 5, 12, 8, 35, 3])
-    # print(bst.head.get_dot())
 
     import time
 
