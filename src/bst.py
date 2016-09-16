@@ -2,7 +2,6 @@
 # -*- coding: utf -8 -*-
 
 from __future__ import unicode_literals
-import random
 from collections import deque
 
 
@@ -58,8 +57,10 @@ class Node(object):
                     visited_nodes.append(parent)
 
     def _compare_nodes(self, n2):
-        """Compare two nodes. Return False if values of 2 nodes are
-        not equal; return True otherwise."""
+        """
+        Compare two nodes. Return False if values of 2 nodes are
+        not equal; return True otherwise.
+        """
         parent = n2
         if self.value != parent.value:
             if self.value > parent.value:
@@ -155,6 +156,10 @@ class Bst(object):
             return self.head.get_dot
 
     def breadth_tr(self):
+        """
+        Return a generator that will return the values in the tree
+        using breadth-first traversal, one at a time.
+        """
         if self.head is None:
             yield None
         current_node = self.head
@@ -168,6 +173,10 @@ class Bst(object):
                 pending.appendleft(current_node.right)
 
     def depth_pre_order_tr(self):
+        """
+        Return a generator that will return the values in the tree using
+        pre-order traversal, one at a time.
+        """
         if self.head is None:
             yield None
         current_node = self.head
@@ -181,13 +190,17 @@ class Bst(object):
                 pending.append(current_node.left)
 
     def depth_in_order_tr(self):
+        """
+        Return a generator that will return the values in the tree using
+        in-order traversal, one at a time.
+        """
         if self.head is None:
             yield None
         current_node = self.head
-        visited = []
-        yielded = []
+        visited, yielded = [], []
         while True:
-            if current_node.left is not None and current_node.left not in yielded:
+            if current_node.left is not None and \
+                    current_node.left not in yielded:
                 visited.append(current_node)
                 current_node = current_node.left
             else:
@@ -195,38 +208,33 @@ class Bst(object):
                 yielded.append(current_node)
                 if current_node.right is not None:
                     current_node = current_node.right
+                elif len(visited) != 0:
+                    current_node = visited.pop()
                 else:
-                    if len(visited) != 0:
-                        current_node = visited.pop()
-                    else:
-                        break
+                    break
 
-
-
-
-
-
-
-
-
-if __name__ == '__main__':
-
-    import time
-
-    bst1 = Bst([10, 5, 15, 2, 8, 12, 18, 1, 0, 3, 4, 6, 9,
-                11, 13, 15, 16, 17, 20, 19, 20])
-    bst2 = Bst(list(range(1, 21)))
-    start_time_bst1 = time.time()
-    searc_bst1 = bst1.contains(20)
-    end_time_bst1 = time.time()
-    time_bst1 = end_time_bst1 - start_time_bst1
-
-    start_time_bst2 = time.time()
-    searc_bst2 = bst2.contains(20)
-    end_time_bst2 = time.time()
-    time_bst2 = end_time_bst2 - start_time_bst2
-    print('To find the biggest number in a binary search tree with {} nodes,'
-          'it takes: {} - if the tree has depth 0f {},'
-          'and {} - if the tree has depth of {}'
-          .format(bst1.size(), time_bst1, bst1.depth(),
-                  time_bst2, bst2.depth()))
+    def depth_post_order_tr(self):
+        """
+        Return a generator that will return the values in the tree using
+        post_order traversal, one at a time.
+        """
+        if self.head is None:
+            yield None
+        current_node = self.head
+        visited, yielded = [], []
+        while True:
+            if current_node.left is not None and \
+                    current_node.left not in yielded:
+                visited.append(current_node)
+                current_node = current_node.left
+            elif current_node.right is not None and \
+                    current_node.right not in yielded:
+                visited.append(current_node)
+                current_node = current_node.right
+            else:
+                yield current_node
+                yielded.append(current_node)
+                if len(visited) != 0:
+                    current_node = visited.pop()
+                else:
+                    break
