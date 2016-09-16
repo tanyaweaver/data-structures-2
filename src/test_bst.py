@@ -6,29 +6,6 @@ from bst import Node, Bst
 import pytest
 
 
-@pytest.fixture(scope='function')
-def node():
-    """Create a node."""
-    node = Node(3)
-    return node
-
-
-@pytest.fixture(scope='function')
-def bst_empty():
-    """Create an empty bst."""
-    bst = Bst()
-    return bst
-
-
-@pytest.fixture(scope='function')
-def bst_3():
-    """Create a balanced bst with 3 nodes."""
-    bst = Bst([10, 5, 15])
-    bst.node_left = bst.head.left
-    bst.node_right = bst.head.right
-    return bst
-
-
 def test_node_init_value(node):
     """
     Test that a new instance of Node(value) has self.value == value.
