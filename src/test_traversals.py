@@ -13,10 +13,9 @@ DEPTH_POST_ORDER = [1, 3, 2, 6, 9, 8, 7, 5, 11, 13, 12, 18, 22, 20, 15, 10]
 BST_7_PRE = [15, 5, 14, 13, 11, 12, 20]
 
 
-def test_traverse_breadth_empty():
-    with pytest.raises(ValueError):
-        bst = Bst()
-        bst.breadth_tr()
+def test_traverse_breadth_empty(bst_empty):
+    for x in bst_empty.breadth_tr():
+        assert x is None
 
 
 def test_breadth1(bst_15):
@@ -38,8 +37,9 @@ def test_breadth3(bst_7):
 
 
 def test_traverse_empty_post_order_tr(bst_empty):
-    with pytest.raises(ValueError):
-        bst_empty.depth_pre_order_tr()
+    bst_empty.depth_pre_order_tr()
+    for x in bst_empty.breadth_tr():
+        assert x is None
 
 
 def test_depth_pre_order1(bst_5_left):

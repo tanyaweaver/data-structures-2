@@ -152,89 +152,82 @@ class Bst(object):
             right_depth = 0
         return left_depth - right_depth
 
-        def gv(self):
-            return self.head.get_dot
-
     def breadth_tr(self):
         """
         Return a generator that will return the values in the tree
         using breadth-first traversal, one at a time.
         """
-        if not self.head:
-            raise ValueError('The tree is empty')
-        current_node = self.head
-        pending = deque([current_node])
-        while len(pending) != 0:
-            current_node = pending.pop()
-            yield current_node
-            if current_node.left is not None:
-                pending.appendleft(current_node.left)
-            if current_node.right is not None:
-                pending.appendleft(current_node.right)
+        if self.head:
+            current_node = self.head
+            pending = deque([current_node])
+            while len(pending) != 0:
+                current_node = pending.pop()
+                yield current_node
+                if current_node.left is not None:
+                    pending.appendleft(current_node.left)
+                if current_node.right is not None:
+                    pending.appendleft(current_node.right)
 
     def depth_pre_order_tr(self):
         """
         Return a generator that will return the values in the tree using
         pre-order traversal, one at a time.
         """
-        if self.head is None:
-            raise ValueError('The tree is empty')
-        current_node = self.head
-        pending = deque([current_node])
-        while len(pending) != 0:
-            current_node = pending.pop()
-            yield current_node
-            if current_node.right is not None:
-                pending.append(current_node.right)
-            if current_node.left is not None:
-                pending.append(current_node.left)
+        if self.head:
+            current_node = self.head
+            pending = deque([current_node])
+            while len(pending) != 0:
+                current_node = pending.pop()
+                yield current_node
+                if current_node.right is not None:
+                    pending.append(current_node.right)
+                if current_node.left is not None:
+                    pending.append(current_node.left)
 
     def depth_in_order_tr(self):
         """
         Return a generator that will return the values in the tree using
         in-order traversal, one at a time.
         """
-        if self.head is None:
-            yield None
-        current_node = self.head
-        visited, yielded = [], []
-        while True:
-            if current_node.left is not None and \
-                    current_node.left not in yielded:
-                visited.append(current_node)
-                current_node = current_node.left
-            else:
-                yield current_node
-                yielded.append(current_node)
-                if current_node.right is not None:
-                    current_node = current_node.right
-                elif len(visited) != 0:
-                    current_node = visited.pop()
+        if self.head:
+            current_node = self.head
+            visited, yielded = [], []
+            while True:
+                if current_node.left is not None and \
+                        current_node.left not in yielded:
+                    visited.append(current_node)
+                    current_node = current_node.left
                 else:
-                    break
+                    yield current_node
+                    yielded.append(current_node)
+                    if current_node.right is not None:
+                        current_node = current_node.right
+                    elif len(visited) != 0:
+                        current_node = visited.pop()
+                    else:
+                        break
 
     def depth_post_order_tr(self):
         """
         Return a generator that will return the values in the tree using
         post_order traversal, one at a time.
         """
-        if self.head is None:
-            yield None
-        current_node = self.head
-        visited, yielded = [], []
-        while True:
-            if current_node.left is not None and \
-                    current_node.left not in yielded:
-                visited.append(current_node)
-                current_node = current_node.left
-            elif current_node.right is not None and \
-                    current_node.right not in yielded:
-                visited.append(current_node)
-                current_node = current_node.right
-            else:
-                yield current_node
-                yielded.append(current_node)
-                if len(visited) != 0:
-                    current_node = visited.pop()
+        if self.head:
+            current_node = self.head
+            visited, yielded = [], []
+            while True:
+                if current_node.left is not None and \
+                        current_node.left not in yielded:
+                    visited.append(current_node)
+                    current_node = current_node.left
+                elif current_node.right is not None and \
+                        current_node.right not in yielded:
+                    visited.append(current_node)
+                    current_node = current_node.right
                 else:
-                    break
+                    yield current_node
+                    yielded.append(current_node)
+                    if len(visited) != 0:
+                        current_node = visited.pop()
+                    else:
+                        break
