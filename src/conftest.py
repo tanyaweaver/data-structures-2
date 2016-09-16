@@ -40,6 +40,7 @@ def bst_5_left():
     bst = Bst(BST_5_LEFT)
     return bst
 
+
 @pytest.fixture(scope='function')
 def bst_15():
     """Create a balanced bst with 3 nodes."""
