@@ -13,6 +13,8 @@ DEPTH_POST_ORDER = [1, 3, 2, 6, 9, 8, 7, 5, 11, 13, 12, 18, 22, 20, 15, 10]
 
 
 def test_breadth1(bst_15):
+    """Test that breadth_tr() returns appropriate values.
+    """
     result = bst_15.breadth_tr()
     for x in result:
         assert x.value in BST_15
