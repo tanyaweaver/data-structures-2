@@ -160,8 +160,8 @@ class Bst(object):
         Return a generator that will return the values in the tree
         using breadth-first traversal, one at a time.
         """
-        if self.head is None:
-            yield None
+        if not self.head:
+            raise ValueError('The tree is empty')
         current_node = self.head
         pending = deque([current_node])
         while len(pending) != 0:
@@ -178,7 +178,7 @@ class Bst(object):
         pre-order traversal, one at a time.
         """
         if self.head is None:
-            yield None
+            raise ValueError('The tree is empty')
         current_node = self.head
         pending = deque([current_node])
         while len(pending) != 0:
