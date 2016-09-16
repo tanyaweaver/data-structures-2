@@ -1,5 +1,5 @@
 # Assignment for Code 401- Python: Data-structures implementation 
-[![Travis](https://travis-ci.org/tanyaweaver/data-structures-2/jobs/160330817#)](https://travis-ci.org/tanyaweaver/data-structures-2/jobs/160330817#)
+[![Travis](https://travis-ci.org/tanyaweaver/data-structures-2.svg?branch=traversals)](https://travis-ci.org/tanyaweaver/data-structures-2.svg?branch=traversals)
 ## This module contains implementations of Binary Search Tree
 ###Methods
 * insert(val) -    insert the value into bst. If value is already present, it will be ignored.
