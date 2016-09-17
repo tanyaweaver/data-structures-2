@@ -14,6 +14,7 @@ class Node(object):
         self.left = None
         self.right = None
         self.depth = 1
+        self.parent = None
 
     def find_depth(self):
         """Find depth property of a node."""
@@ -38,6 +39,7 @@ class Node(object):
             if new_node.value > parent.value:
                 if parent.right is None:
                     parent.right = new_node
+                    new_node.parent = parent
                     while len(visited_nodes) != 0:
                         visited_node = visited_nodes.pop()
                         visited_node.depth = visited_node.find_depth()
@@ -48,6 +50,7 @@ class Node(object):
             elif new_node.value < parent.value:
                 if parent.left is None:
                     parent.left = new_node
+                    new_node.parent = parent
                     while len(visited_nodes) != 0:
                         visited_node = visited_nodes.pop()
                         visited_node.depth = visited_node.find_depth()
@@ -76,7 +79,7 @@ class Node(object):
                     parent = parent.left
                     return self._compare_nodes(parent)
         else:
-            return True
+            return parent
 
 
 class Bst(object):
@@ -231,3 +234,69 @@ class Bst(object):
                         current_node = visited.pop()
                     else:
                         break
+
+    def delete(self, value):
+        new_node = Node(value)
+        node_to_delete = new_node._compare_nodes(self.head)
+        if node_to_delete.left or node_to_delete.right:
+            #import pdb; pdb.set_trace()
+            if node_to_delete.left:
+                depth_left = node_to_delete.left.depth
+                child1 = node_to_delete.left
+            else:
+                depth_left = 0
+                child1 = None
+            if node_to_delete.right:
+                depth_right = node_to_delete.right.depth
+                child2 = node_to_delete.right
+            else:
+                depth_right = 0
+                child2 = None
+            if depth_left >= depth_right:
+                current = node_to_delete.left
+                while current:
+                    parent_of_pending = current.parent
+                    pending = current
+                    current = current.right
+                parent_of_pending.right = None
+                parent_of_pending.depth = parent_of_pending.find_depth()
+            else:
+                current = node_to_delete.right
+                while current:
+                    parent_of_pending = current.parent
+                    pending = current
+                    current = current.left
+                parent_of_pending.left = None
+                parent_of_pending.depth = parent_of_pending.find_depth()
+            if child1:
+                child1.parent = pending
+            if child2:
+                child2.parent = pending
+            pending.left = child1
+            pending.right = child2
+            parent_depth = parent_of_pending
+            if node_to_delete.parent:
+                parent = node_to_delete.parent
+                pending.parent = parent
+            else:
+                pending.parent = None
+                self.head = pending
+            while parent_depth:
+                parent_depth.depth = parent_depth.find_depth()
+                parent_depth = parent_depth.parent
+        else:
+            pending = None
+        if node_to_delete.parent:
+            parent = node_to_delete.parent
+            if parent.left is node_to_delete:
+                parent.left = pending
+            else:
+                parent.right = pending
+        else:
+            parent = None
+            self.head = pending
+        parent_depth = parent
+        while parent_depth:
+            parent_depth.depth = parent_depth.find_depth()
+            parent_depth = parent_depth.parent
+        node_to_delete.left, node_to_delete.right, node_to_delete.parent = None, None, None

@@ -34,6 +34,13 @@ def test_node_init_depth(node):
     assert node.depth == 1
 
 
+def test_node_init_parent(node):
+    """
+    Test that a new instance of Node(value) self.parent is None.
+    """
+    assert node.parent is None
+
+
 def test_compare_self_to_a_bigger_node1(node):
     """
     Test that function _insert_node(self, n)
@@ -161,6 +168,15 @@ def test_insert_right_right(bst_3):
     """
     bst_3.insert(17)
     assert bst_3.node_right.right.value == 17
+
+
+def test_insert_parent1(bst_3):
+    bst_3.insert(17)
+    assert bst_3.node_right.right.parent.value == 15
+
+
+def test_insert_parent2(bst_3):
+    assert bst_3.node_right.parent.value == 10
 
 
 def test_contains_true5(bst_3):
