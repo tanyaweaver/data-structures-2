@@ -43,20 +43,20 @@ def bst_5_left():
 
 @pytest.fixture(scope='function')
 def bst_15():
-    """Create a balanced bst with 3 nodes."""
+    """Create a bst with 15 nodes."""
     bst = Bst(BST_15)
     return bst
 
 
 @pytest.fixture(scope='function')
 def bst_7():
-    """Create a balanced bst with 3 nodes."""
+    """Create a bst with 7 nodes."""
     bst = Bst(BST_7)
     return bst
 
 
 @pytest.fixture(scope='function')
 def bst_list_30():
-    """Create a balanced bst with 3 nodes."""
+    """Create a bst with 30 nodes."""
     bst_list_30 = Bst(LIST_30)
     return bst_list_30

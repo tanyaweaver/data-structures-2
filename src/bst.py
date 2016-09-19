@@ -30,56 +30,69 @@ class Node(object):
         return self.depth
 
     def _insert_node(self, new_node):
-        """Insert a new node. <new_node> must be an instance of Node."""
-        parent = self
+        """
+        Insert a child for self. Ignore new_node if it's already a child.
+         <new_node> must be an instance of Node.
+         """
+        current = self
         visited_nodes = [self]
-        while True:
-            if parent.value == new_node.value:
+        while current:
+            if current.value == new_node.value:
                 break
-            if new_node.value > parent.value:
-                if parent.right is None:
-                    parent.right = new_node
-                    new_node.parent = parent
+            if new_node.value > current.value:
+                if current.right is None:
+                    current.right = new_node
+                    new_node.parent = current
                     while len(visited_nodes) != 0:
                         visited_node = visited_nodes.pop()
                         visited_node.depth = visited_node.find_depth()
-                    break
+                    return True
                 else:
-                    parent = parent.right
-                    visited_nodes.append(parent)
-            elif new_node.value < parent.value:
-                if parent.left is None:
-                    parent.left = new_node
-                    new_node.parent = parent
+                    current = current.right
+                    visited_nodes.append(current)
+            elif new_node.value < current.value:
+                if current.left is None:
+                    current.left = new_node
+                    new_node.parent = current
                     while len(visited_nodes) != 0:
                         visited_node = visited_nodes.pop()
                         visited_node.depth = visited_node.find_depth()
-                    break
+                    return True
                 else:
-                    parent = parent.left
-                    visited_nodes.append(parent)
+                    current = current.left
+                    visited_nodes.append(current)
+        return False
 
-    def _compare_nodes(self, n2):
-        """
-        Compare two nodes. Return False if values of 2 nodes are
-        not equal; return True otherwise.
-        """
-        parent = n2
-        if self.value != parent.value:
-            if self.value > parent.value:
-                if parent.right is None:
-                    return False
-                else:
-                    parent = parent.right
-                    return self._compare_nodes(parent)
-            elif self.value < parent.value:
-                if parent.left is None:
-                    return False
-                else:
-                    parent = parent.left
-                    return self._compare_nodes(parent)
+    def _find_next_bigger(self):
+        """Find next bigger node among childer of self."""
+        current = self.right
+        if current:
+            while current.left:
+                current = current.left
+        return current
+
+    def _find_previous_smaller(self):
+        """Find previous smaller node among children of self."""
+        current = self.left
+        if current:
+            while current.right:
+                current = current.right
+        return current
+
+    def _delete_leaf(self):
+        """Delete a node that doesn't have children."""
+        if self.parent:
+            if self.parent.left is self:
+                self.parent.left = None
+            else:
+                self.parent.right = None
+            parent = self.parent
+            while parent:
+                parent.depth = parent.find_depth()
+                parent = parent.parent
         else:
-            return parent
+            self.head = None
+        self.parent = None
 
 
 class Bst(object):
@@ -98,6 +111,22 @@ class Bst(object):
             except TypeError:
                 self.insert(iterable)
 
+    def return_node(self, value):
+        """
+        Return Node(val) from the tree or
+        False if Node is not in the tree.
+        """
+        current = self.head
+        while current:
+            if value == current.value:
+                return current
+            else:
+                if value > current.value:
+                    current = current.right
+                else:
+                    current = current.left
+        return False
+
     def insert(self, value):
         """
         Insert the value into bst. If value is already present,
@@ -106,22 +135,20 @@ class Bst(object):
         new_node = Node(value)
         if self.head is None:
             self.head = new_node
+            self.counter += 1
         else:
-            self.head._insert_node(new_node)
-        self.counter += 1
+            if self.head._insert_node(new_node):
+                self.counter += 1
 
     def contains(self, value):
         """
         Returns True if the value in the bst, False if not.
         """
-        new_node = Node(value)
-        if self.head is None:
-            return False
+        result = self.return_node(value)
+        if result:
+            return True
         else:
-            if new_node._compare_nodes(self.head):
-                return True
-            else:
-                return False
+            return False
 
     def size(self):
         """
@@ -236,67 +263,21 @@ class Bst(object):
                         break
 
     def delete(self, value):
-        new_node = Node(value)
-        node_to_delete = new_node._compare_nodes(self.head)
-        if node_to_delete.left or node_to_delete.right:
-            #import pdb; pdb.set_trace()
-            if node_to_delete.left:
-                depth_left = node_to_delete.left.depth
-                child1 = node_to_delete.left
+        """Delete a node from the tree."""
+        node_to_delete = self.return_node(value)
+        if node_to_delete:
+            child_left, child_right = node_to_delete.left, node_to_delete.right
+            depth_left, depth_right = 0, 0
+            if child_left:
+                depth_left = child_left.find_depth()
+            if child_right:
+                depth_right = child_right.find_depth()
+            if depth_left == 0 and depth_right == 0:
+                node_to_delete._delete_leaf()
             else:
-                depth_left = 0
-                child1 = None
-            if node_to_delete.right:
-                depth_right = node_to_delete.right.depth
-                child2 = node_to_delete.right
-            else:
-                depth_right = 0
-                child2 = None
-            if depth_left >= depth_right:
-                current = node_to_delete.left
-                while current:
-                    parent_of_pending = current.parent
-                    pending = current
-                    current = current.right
-                parent_of_pending.right = None
-                parent_of_pending.depth = parent_of_pending.find_depth()
-            else:
-                current = node_to_delete.right
-                while current:
-                    parent_of_pending = current.parent
-                    pending = current
-                    current = current.left
-                parent_of_pending.left = None
-                parent_of_pending.depth = parent_of_pending.find_depth()
-            if child1:
-                child1.parent = pending
-            if child2:
-                child2.parent = pending
-            pending.left = child1
-            pending.right = child2
-            parent_depth = parent_of_pending
-            if node_to_delete.parent:
-                parent = node_to_delete.parent
-                pending.parent = parent
-            else:
-                pending.parent = None
-                self.head = pending
-            while parent_depth:
-                parent_depth.depth = parent_depth.find_depth()
-                parent_depth = parent_depth.parent
-        else:
-            pending = None
-        if node_to_delete.parent:
-            parent = node_to_delete.parent
-            if parent.left is node_to_delete:
-                parent.left = pending
-            else:
-                parent.right = pending
-        else:
-            parent = None
-            self.head = pending
-        parent_depth = parent
-        while parent_depth:
-            parent_depth.depth = parent_depth.find_depth()
-            parent_depth = parent_depth.parent
-        node_to_delete.left, node_to_delete.right, node_to_delete.parent = None, None, None
+                if depth_left >= depth_right:
+                    replacement = node_to_delete._find_previous_smaller()
+                else:
+                    replacement = node_to_delete._find_next_bigger()
+                replacement._delete_leaf()
+                node_to_delete.value = replacement.value
