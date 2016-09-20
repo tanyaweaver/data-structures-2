@@ -1,4 +1,4 @@
-# Assignment for Code 401- Python: Data-structures implementation 
+# Assignment for Code 401- Python: Data-structures implementation
 [![Travis](https://travis-ci.org/tanyaweaver/data-structures-2.svg?branch=traversals)](https://travis-ci.org/tanyaweaver/data-structures-2.svg?branch=traversals)
 ## This module contains implementations of Binary Search Tree
 ###Methods
@@ -10,6 +10,7 @@
                     - a positive value if the tree is higher on the left than the right;
                     - a negative value if the tree is higher on the right than the left;
                     - zero if the tree is ideally-balanced.
+* delete(self, val) - Remove val from the tree if present, if not present this method is a    no-op. Return None in all cases.
 
 ###Traversal methods
 * in_order(self) - Return a generator that will return the values in the tree using in-order traversal, one at a time.
@@ -29,4 +30,3 @@ To use binary search tree
 from bst import Bst
 my_bst = Bst([1, 2, 3])
 ```
-

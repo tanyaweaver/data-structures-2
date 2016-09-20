@@ -16,120 +16,120 @@ BST_5_IN_POST = [1, 2, 3, 4, 5]
 
 def test_traverse_breadth_empty(bst_empty):
     """Test breadth traversal on empty tree returns None."""
-    for x in bst_empty.breadth_tr():
+    for x in bst_empty.breadth_first():
         assert x is None
 
 
 def test_traverse_pre_empty(bst_empty):
     """Test pre-order traversal on empty tree returns None."""
-    for x in bst_empty.depth_pre_order_tr():
+    for x in bst_empty.pre_order():
         assert x is None
 
 
 def test_traverse_in_empty(bst_empty):
     """Test in-order traversal on empty tree returns None."""
-    for x in bst_empty.depth_in_order_tr():
+    for x in bst_empty.in_order():
         assert x is None
 
 
 def test_traverse_empty_post_order_tr(bst_empty):
     """Test post-order traversal on empty tree returns None."""
-    bst_empty.depth_pre_order_tr()
-    for x in bst_empty.breadth_tr():
+    bst_empty.post_order()
+    for x in bst_empty.post_order():
         assert x is None
 
 
 def test_breadth1(bst_15):
-    """Test that breadth_tr() returns appropriate values.
+    """Test that breadth_first() returns appropriate values.
     """
-    result = bst_15.breadth_tr()
+    result = bst_15.breadth_first()
     for x in result:
-        assert x.value in BST_15
+        assert x in BST_15
 
 
 def test_breadth2(bst_list_30):
-    """Test that breadth_tr() returns appropriate values.
+    """Test that breadth_first() returns appropriate values.
     """
-    result = bst_list_30.breadth_tr()
+    result = bst_list_30.breadth_first()
     for x in result:
-        assert x.value in LIST_30
+        assert x in LIST_30
 
 
 def test_breadth3(bst_7):
-    """Test that breadth_tr() returns appropriate values.
+    """Test that breadth_first() returns appropriate values.
     """
-    result = bst_7.breadth_tr()
+    result = bst_7.breadth_first()
     for x in result:
-        assert x.value in BST_7
+        assert x in BST_7
 
 
 def test_depth_pre_order1(bst_5_left):
     """Test that depth pre-order traversal returns appropriate values.
     """
-    result = bst_5_left.depth_pre_order_tr()
+    result = bst_5_left.pre_order()
     for x in result:
-        assert x.value in BST_5_LEFT
+        assert x in BST_5_LEFT
 
 
 def test_depth_pre_order2(bst_15):
     """Test that depth pre-order traversal returns appropriate values.
     """
-    result = bst_15.depth_pre_order_tr()
+    result = bst_15.pre_order()
     for x in result:
-        assert x.value in DEPTH_PRE_ORDER
+        assert x in DEPTH_PRE_ORDER
 
 
 def test_depth_pre_order3(bst_7):
     """Test that depth pre-order traversal returns appropriate values.
     """
-    result = bst_7.depth_pre_order_tr()
+    result = bst_7.pre_order()
     for x in result:
-        assert x.value in BST_7_PRE
+        assert x in BST_7_PRE
 
 
 def test_depth_in_order1(bst_15):
     """Test that depth in-order traversal returns appropriate values.
     """
-    result = bst_15.depth_in_order_tr()
+    result = bst_15.in_order()
     for x in result:
-        assert x.value in DEPTH_IN_ORDER
+        assert x in DEPTH_IN_ORDER
 
 
 def test_depth_post_order1(bst_15):
     """Test that depth post order traversal returns appropriate values.
     """
-    result = bst_15.depth_post_order_tr()
+    result = bst_15.post_order()
     for x in result:
-        assert x.value in DEPTH_POST_ORDER
+        assert x in DEPTH_POST_ORDER
 
 
 def test_depth_in_order2(bst_7):
     """Test that depth in order traversal returns appropriate values.
     """
-    result = bst_7.depth_in_order_tr()
+    result = bst_7.in_order()
     for x in result:
-        assert x.value in BST_7_IN
+        assert x in BST_7_IN
 
 
 def test_depth_post_order2(bst_7):
     """Test that depth post order traversal returns appropriate values.
     """
-    result = bst_7.depth_post_order_tr()
+    result = bst_7.post_order()
     for x in result:
-        assert x.value in BST_7_POST
+        assert x in BST_7_POST
 
 
 def test_depth_in_order3(bst_5_left):
     """Test that depth in order traversal returns appropriate values.
     """
-    result = bst_5_left.depth_in_order_tr()
+    result = bst_5_left.in_order()
     for x in result:
-        assert x.value in BST_5_IN_POST
+        assert x in BST_5_IN_POST
 
 
 def test_depth_post_order3(bst_5_left):
     """Test that depth post order traversal returns appropriate values.
     """
-    result = bst_5_left.depth_post_order_tr()
+    result = bst_5_left.post_order()
     for x in result:
-        assert x.value in BST_5_IN_POST
+        assert x in BST_5_IN_POST

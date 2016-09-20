@@ -6,6 +6,59 @@ from bst import Node, Bst
 import pytest
 
 
+def test_return_node1(bst_15):
+    """Prove that returned node has the right value."""
+    assert bst_15.return_node(1).value == 1
+
+
+def test_return_node2(bst_15):
+    """Prove that return_node returns False, when node is not in the tree."""
+    assert bst_15.return_node(100) is False
+
+
+def test_return_node3(bst_15):
+    """Prove that returned node has the right value."""
+    assert bst_15.return_node(22).value == 22
+
+
+def test_return_node4(bst_15):
+    """Prove that returned node has the right parent value."""
+    assert bst_15.return_node(1).parent.value == 2
+
+NEXT_BIGGER = [(10, 11), (15, 18), (12, 13)]
+
+
+@pytest.mark.parametrize('node, next_bigger', NEXT_BIGGER)
+def test_find_next_bigger1(node, next_bigger, bst_15):
+    """Prove that returned node has the right value."""
+    node = bst_15.return_node(node)
+    assert node._find_next_bigger().value == next_bigger
+
+
+def test_find_next_bigger3(bst_15):
+    """Prove that function returns None if there is no next bigger child."""
+    node = bst_15.return_node(22)
+    assert node._find_next_bigger() is None
+
+PREV_SMALLER = [(10, 9), (20, 18), (10, 9), (5, 3)]
+
+
+@pytest.mark.parametrize('node, prev_smaller', PREV_SMALLER)
+def test_find_previous_smaller(node, prev_smaller, bst_15):
+    """Prove that returned node has the right value."""
+    node = bst_15.return_node(node)
+    assert node._find_previous_smaller().value == prev_smaller
+
+
+def test_find_previous_smaller1(bst_15):
+    """
+    Prove that function returns None if there is no previous
+    smaller child.
+    """
+    node = bst_15.return_node(22)
+    assert node._find_previous_smaller() is None
+
+
 def test_node_init_value(node):
     """
     Test that a new instance of Node(value) has self.value == value.
@@ -34,64 +87,150 @@ def test_node_init_depth(node):
     assert node.depth == 1
 
 
-def test_compare_self_to_a_bigger_node1(node):
+def test_node_init_parent(node):
     """
-    Test that function _insert_node(self, n)
-    assigns n.left = self.value if self.value is smaller than n.value.
+    Test that a new instance of Node(value) self.parent is None.
     """
-    node2 = Node(5)
-    node2._insert_node(node)
-    assert node2.left.value == 3
+    assert node.parent is None
 
 
-def test_compare_self_to_a_bigger_node2(node):
+def test_insert_the_child_into_a_node1():
     """
-    Test that function _insert_node(self, n)
-    doesn't change n.right = None if self.value is smaller than n.value.
+    Test that _insert_node(self, n)
+    inserts n as the left child when n.value < self.value.
     """
-    node2 = Node(5)
-    node2._insert_node(node)
-    assert node2.right is None
+    node = Node(5)
+    node._insert_node(Node(3))
+    assert node.left.value == 3
 
 
-def test_compare_self_to_a_smaller_node1(node):
+def test_insert_the_child_into_a_node2():
     """
-    Test that function _insert_node(self, n)
-    assigns n.right = self.value if self.value is bigger than n.value.
+    Test that _insert_node(self, n)
+    assigns the right parent to the child.
     """
-    node1 = Node(7)
-    node._insert_node(node1)
+    node = Node(5)
+    node._insert_node(Node(3))
+    assert node.left.parent is node
+
+
+def test_insert_the_child_into_a_node3():
+    """
+    Test that _insert_node(self, n)
+    inserts n as the left child when n.value < self.value.
+    """
+    node = Node(3)
+    node._insert_node(Node(2))
+    assert node.right is None
+
+
+def test_insert_the_child_into_a_node4():
+    """
+    Test that _insert_node(self, n)
+    inserts n as the right child when n.value > self.value.
+    """
+    node = Node(3)
+    node._insert_node(Node(7))
     assert node.right.value == 7
 
 
-def test_compare_self_to_a_smaller_node2(node):
+def test_insert_the_child_into_a_node5():
     """
-    Test that function _insert_node(self, n)
-    doesn't change n.left = None if self.value is bigger than n.value.
+    Test that _insert_node(self, n)
+    inserts n as the right child when n.value > self.value.
     """
-    node1 = Node(7)
-    node._insert_node(node1)
+    node = Node(3)
+    node._insert_node(Node(7))
     assert node.left is None
 
 
-def test_compare_self_to_equal_value1(node):
+def test_insert_the_child_into_a_node6():
     """
-    Test that function _insert_node(self, n)
-    doesn't change n.left = None if self.value is equal to n.value.
+    Test that _insert_node(self, n)
+    doesn't insert a child if it already in the tree.
     """
-    node1 = Node(3)
-    node._insert_node(node1)
+    node = Node(3)
+    node._insert_node(Node(3))
     assert node.left is None
 
 
-def test_compare_self_to_equal_value2(node):
+def test_insert_the_child_into_a_node7(node):
     """
-    Test that function _insert_node(self, n)
-    doesn't change n.right = None if self.value is equal to n.value.
+    Test that _insert_node(self, n)
+    doesn't insert a child if it already in the tree.
     """
-    node1 = Node(3)
-    node._insert_node(node1)
+    node = Node(3)
+    node._insert_node(Node(3))
     assert node.right is None
+
+
+def test_insert_the_child_into_a_node8(node):
+    """
+    Test that _insert_node(self, n)
+    doesn't insert a child if it already in the tree.
+    """
+    node = Node(3)
+    node._insert_node(Node(3))
+    assert node.depth == 1
+
+
+def test_insert_the_child_into_a_node9(node):
+    """
+    Test that _insert_node(self, n)
+    insert a child and adjusts the depth of the parent.
+    """
+    node = Node(3)
+    node._insert_node(Node(5))
+    assert node.depth == 2
+
+
+def test_insert_the_child_into_a_node10(node):
+    """
+    Test that _insert_node(self, n)
+    insert a child and adjusts the depth of the parent.
+    """
+    node = Node(3)
+    node._insert_node(Node(2))
+    assert node.depth == 2
+
+
+def test_tree_insert_node1(bst_empty):
+    """
+    Test that function insert(self, n)
+    assigns n.parent correctly when a node inserted into an empty bst.
+    """
+    bst_empty.insert(3)
+    assert bst_empty.head.parent is None
+
+
+def test_tree_insert_node2(bst_3):
+    """
+    Test that function insert(self, n) assigns n.parent correctly
+    when a node inserted in the bst with 3 nodes.
+    """
+    bst_3.insert(3)
+    assert bst_3.return_node(5).left.parent.value == 5
+
+
+def test_tree_insert_node3(bst_3):
+    """
+    Test that function insert(self, n) ignores a node
+    if it is already in the tree.
+    """
+    bst_3.insert(5)
+    assert bst_3.size() == 3
+
+
+def test_tree_insert_ignores_duplicate(bst_3):
+    """
+    Test that function insert(self, n) ignores a node
+    if it is already in the tree.
+    """
+    bst_3.insert(5)
+    list_in_order = []
+    for x in bst_3.in_order():
+        list_in_order.append(x)
+    assert list_in_order == [5, 10, 15]
 
 
 def test_bst_init():
@@ -161,6 +300,15 @@ def test_insert_right_right(bst_3):
     """
     bst_3.insert(17)
     assert bst_3.node_right.right.value == 17
+
+
+def test_insert_parent1(bst_3):
+    bst_3.insert(17)
+    assert bst_3.node_right.right.parent.value == 15
+
+
+def test_insert_parent2(bst_3):
+    assert bst_3.node_right.parent.value == 10
 
 
 def test_contains_true5(bst_3):
