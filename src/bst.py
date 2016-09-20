@@ -8,13 +8,45 @@ from collections import deque
 class Node(object):
     """Define class for a node of a binary search tree."""
 
-    def __init__(self, val):
+    def __init__(self, val, left=None, right=None, parent=None):
         """Create an instance of Node."""
         self.value = val
-        self.left = None
-        self.right = None
+        self._left = left
+        self._right = right
         self.depth = 1
-        self.parent = None
+        self._parent = parent
+
+    @property
+    def left(self):
+        return self._left
+
+    @left.setter
+    def left(self, node):
+        self._left = node
+        if node is not None:
+            node._parent = self
+
+    @left.deleter
+    def left(self):
+        self._left = None
+
+    @property
+    def right(self):
+        return self._right
+
+    @right.setter
+    def right(self, node):
+        self._right = node
+        if node is not None:
+            node._parent = self
+
+    @right.deleter
+    def right(self):
+        self._right = None
+
+    @property
+    def parent(self):
+        return self._parent
 
     def find_depth(self):
         """Find depth property of a node."""
@@ -42,7 +74,6 @@ class Node(object):
             if new_node.value > current.value:
                 if current.right is None:
                     current.right = new_node
-                    new_node.parent = current
                     while len(visited_nodes) != 0:
                         visited_node = visited_nodes.pop()
                         visited_node.depth = visited_node.find_depth()
@@ -53,7 +84,6 @@ class Node(object):
             elif new_node.value < current.value:
                 if current.left is None:
                     current.left = new_node
-                    new_node.parent = current
                     while len(visited_nodes) != 0:
                         visited_node = visited_nodes.pop()
                         visited_node.depth = visited_node.find_depth()
