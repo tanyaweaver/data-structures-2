@@ -221,6 +221,18 @@ def test_tree_insert_node3(bst_3):
     assert bst_3.size() == 3
 
 
+def test_tree_insert_ignores_duplicate(bst_3):
+    """
+    Test that function insert(self, n) ignores a node
+    if it is already in the tree.
+    """
+    bst_3.insert(5)
+    list_in_order = []
+    for x in bst_3.depth_in_order_tr():
+        list_in_order.append(x.value)
+    assert list_in_order == [5, 10, 15]
+
+
 def test_bst_init():
     """
     Test that a new instance of Bst has approprite self.head value.
