@@ -90,9 +90,6 @@ class Node(object):
             while parent:
                 parent.depth = parent.find_depth()
                 parent = parent.parent
-        else:
-            self.head = None
-        self.parent = None
 
 
 class Bst(object):
@@ -182,7 +179,7 @@ class Bst(object):
             right_depth = 0
         return left_depth - right_depth
 
-    def breadth_tr(self):
+    def breadth_first(self):
         """
         Return a generator that will return the values in the tree
         using breadth-first traversal, one at a time.
@@ -192,13 +189,13 @@ class Bst(object):
             pending = deque([current_node])
             while len(pending) != 0:
                 current_node = pending.pop()
-                yield current_node
+                yield current_node.value
                 if current_node.left is not None:
                     pending.appendleft(current_node.left)
                 if current_node.right is not None:
                     pending.appendleft(current_node.right)
 
-    def depth_pre_order_tr(self):
+    def pre_order(self):
         """
         Return a generator that will return the values in the tree using
         pre-order traversal, one at a time.
@@ -208,13 +205,13 @@ class Bst(object):
             pending = deque([current_node])
             while len(pending) != 0:
                 current_node = pending.pop()
-                yield current_node
+                yield current_node.value
                 if current_node.right is not None:
                     pending.append(current_node.right)
                 if current_node.left is not None:
                     pending.append(current_node.left)
 
-    def depth_in_order_tr(self):
+    def in_order(self):
         """
         Return a generator that will return the values in the tree using
         in-order traversal, one at a time.
@@ -228,7 +225,7 @@ class Bst(object):
                     visited.append(current_node)
                     current_node = current_node.left
                 else:
-                    yield current_node
+                    yield current_node.value
                     yielded.append(current_node)
                     if current_node.right is not None:
                         current_node = current_node.right
@@ -237,7 +234,7 @@ class Bst(object):
                     else:
                         break
 
-    def depth_post_order_tr(self):
+    def post_order(self):
         """
         Return a generator that will return the values in the tree using
         post_order traversal, one at a time.
@@ -255,7 +252,7 @@ class Bst(object):
                     visited.append(current_node)
                     current_node = current_node.right
                 else:
-                    yield current_node
+                    yield current_node.value
                     yielded.append(current_node)
                     if len(visited) != 0:
                         current_node = visited.pop()
@@ -273,7 +270,10 @@ class Bst(object):
             if child_right:
                 depth_right = child_right.find_depth()
             if depth_left == 0 and depth_right == 0:
+                if not node_to_delete.parent:
+                    self.head = None
                 node_to_delete._delete_leaf()
+                self.counter -= 1
             else:
                 if depth_left >= depth_right:
                     replacement = node_to_delete._find_previous_smaller()
@@ -281,3 +281,4 @@ class Bst(object):
                     replacement = node_to_delete._find_next_bigger()
                 replacement._delete_leaf()
                 node_to_delete.value = replacement.value
+                self.counter -= 1

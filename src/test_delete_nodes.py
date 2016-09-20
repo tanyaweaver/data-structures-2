@@ -1,4 +1,5 @@
 from __future__ import unicode_literals
+from bst import Bst
 
 
 def test_delete_leaf1(bst_15):
@@ -39,6 +40,63 @@ def test_delete_leaf4(bst_15):
     leaf = bst_15.return_node(9)
     leaf._delete_leaf()
     assert bst_15.depth() == 4
+
+
+def test_delete_node_size1(bst_15):
+    """
+    Prove that after deletion of a node,
+    the tree size is decreased by 1
+    if node exsited in the tree.
+    """
+    before_size = bst_15.size()
+    bst_15.delete(10)
+    after_size = bst_15.size()
+    assert before_size - 1 == after_size
+
+
+def test_delete_node_size2(bst_15):
+    """
+    Prove that after deletion of a node,
+    the tree size is  the same
+    if node did not exist in the tree.
+    """
+    before_size = bst_15.size()
+    bst_15.delete(100)
+    after_size = bst_15.size()
+    assert before_size == after_size
+
+
+def test_delete_node_size3():
+    """
+    Prove that after deletion of a node
+    from a tree with 1 node,
+    the tree size is 0.
+    """
+    bst1 = Bst(1)
+    before_size = bst1.size()
+    bst1.delete(1)
+    after_size = bst1.size()
+    assert before_size - 1 == after_size
+
+
+def test_delete_node_size4(bst_empty):
+    """
+    Prove that the size of an empty tree
+    stays 0 when trying to delete a node.
+    """
+    bst_empty.delete(10)
+    assert bst_empty.size() == 0
+
+
+def test_delete_node_head1():
+    """
+    Prove that after deletion of a node
+    from a tree with 1 node,
+    the tree.head.value is None.
+    """
+    bst1 = Bst(1)
+    bst1.delete(1)
+    assert bst1.head is None
 
 
 def test_delete_node1(bst_15):
@@ -163,3 +221,28 @@ def test_delete_node14(bst_15):
     Prove that nothing happens if node_to_delete is not in the tree.
     """
     assert bst_15.delete(100) is None
+
+
+def test_delete_node15(bst_3):
+    """
+    Prove that the rest of the nodes are still present
+    in a tree, after deletion of one node.
+    """
+    bst_3.delete(5)
+    list_in_order = []
+    for x in bst_3.in_order():
+        list_in_order.append(x)
+    assert list_in_order == [10, 15]
+
+
+def test_delete_node16(bst_3):
+    """
+    Prove that all the nodes are still present
+    in a tree, after trying to delete a node thatdoesn't
+    exist in the tree.
+    """
+    bst_3.delete(555)
+    list_in_order = []
+    for x in bst_3.in_order():
+        list_in_order.append(x)
+    assert list_in_order == [5, 10, 15]

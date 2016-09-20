@@ -228,8 +228,8 @@ def test_tree_insert_ignores_duplicate(bst_3):
     """
     bst_3.insert(5)
     list_in_order = []
-    for x in bst_3.depth_in_order_tr():
-        list_in_order.append(x.value)
+    for x in bst_3.in_order():
+        list_in_order.append(x)
     assert list_in_order == [5, 10, 15]
 
 
