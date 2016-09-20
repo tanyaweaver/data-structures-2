@@ -121,6 +121,29 @@ class Node(object):
                 parent.depth = parent.find_depth()
                 parent = parent.parent
 
+    def _balance(self):
+        """
+        Return negative integer if the depth of the right child of the
+        node is bigger than the depth of the left child. Return positive
+        integer if the depth of the left child of the node is bigger than
+        the depth of the right child. Return 0 if depth of the left
+        and right child are the same.
+        """
+        depth_left, depth_right = 0, 0
+        if self.left:
+            depth_left = self.left.find_depth()
+        if self.right:
+            depth_right = self.right.find_depth()
+        return depth_left - depth_right
+
+    def left_rotation(self):
+        grandparent = self.parent.parent
+        if grandparent._balance() == -2:
+            if grandparent.parent:
+                grandparent.parent.right = self.parent
+            self.parent.left = grandparent
+            grandparent.right = None
+
 
 class Bst(object):
     """Define binary search tree class."""
