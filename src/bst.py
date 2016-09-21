@@ -152,7 +152,7 @@ class Bst(object):
         """
         Create an instance of binary search tree.
         """
-        self.head = None
+        self._head = None
         self.counter = 0
         if iterable is not None:
             try:
@@ -160,6 +160,16 @@ class Bst(object):
                     self.insert(item)
             except TypeError:
                 self.insert(iterable)
+
+    @property
+    def head(self):
+        return self._head
+
+    @head.setter
+    def head(self, node):
+        self._head = node
+        if node is not None:
+            node._parent = None
 
     def return_node(self, value):
         """
@@ -337,12 +347,27 @@ class Bst(object):
                 self.counter -= 1
 
     def left_rotation(self, node1, node2):
+        #import pdb;pdb.set_trace()
         if node2.parent:
             node2.parent.right = node1
         else:
             self.head = node1
         node2.right = None
         node1.left = node2
+        node2.find_depth()
+        current = node1
+        while current:
+            current.find_depth()
+            current = current.parent
+
+    def right_rotation(self, node1, node2):
+        #import pdb;pdb.set_trace()
+        if node2.parent:
+            node2.parent.left = node1
+        else:
+            self.head = node1
+        node2.left = None
+        node1.right = node2
         node2.find_depth()
         current = node1
         while current:
