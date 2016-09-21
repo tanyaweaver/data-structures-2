@@ -136,13 +136,13 @@ class Node(object):
             depth_right = self.right.find_depth()
         return depth_left - depth_right
 
-    def left_rotation(self):
-        grandparent = self.parent.parent
-        if grandparent._balance() == -2:
-            if grandparent.parent:
-                grandparent.parent.right = self.parent
-            self.parent.left = grandparent
-            grandparent.right = None
+    # def left_rotation(self):
+    #     grandparent = self.parent.parent
+    #     if grandparent._balance() == -2:
+    #         if grandparent.parent:
+    #             grandparent.parent.right = self.parent
+    #         self.parent.left = grandparent
+    #         grandparent.right = None
 
 
 class Bst(object):
@@ -335,3 +335,16 @@ class Bst(object):
                 replacement._delete_leaf()
                 node_to_delete.value = replacement.value
                 self.counter -= 1
+
+    def left_rotation(self, node1, node2):
+        if node2.parent:
+            node2.parent.right = node1
+        else:
+            self.head = node1
+        node2.right = None
+        node1.left = node2
+        node2.find_depth()
+        current = node1
+        while current:
+            current.find_depth()
+            current = current.parent

@@ -26,7 +26,89 @@ def test_balance_node2():
     assert bst.return_node(10)._balance() == -2
 
 
-def test_rotate_left():
-    bst = Bst([10, 20, 30])
-    bst.return_node(30).left_rotation()
-    assert breadth_traversal(bst) == [20, 10, 30]
+def bst_left_rotation(iterable, val1, val2):
+    bst = Bst(iterable)
+    node1 = bst.return_node(val1)
+    node2 = bst.return_node(val2)
+    bst.left_rotation(node1, node2)
+    return (bst, node1, node2)
+
+
+def test_rotate_left1():
+    """
+    Prove that left_rotation() doesn't change size of a tree.
+    """
+    bst, node1, node2 = bst_left_rotation([10, 20, 30], 20, 10)
+    assert bst.size() == 3
+
+
+def test_rotate_left2():
+    """
+    Prove that after left_rotation() the tree has a right head.
+    """
+    bst, node1, node2 = bst_left_rotation([10, 20, 30], 20, 10)
+    assert bst.head.value == 20
+
+
+def test_rotate_left3():
+    """
+    Prove that the tree has an expected depth after a left_rotation.
+    """
+    bst, node1, node2 = bst_left_rotation([10, 20, 30], 20, 10)
+    assert bst.depth() == 2
+
+
+def test_rotate_left4():
+    """
+    Prove that the pivot node has the corrrect left child.
+    """
+    bst, node1, node2 = bst_left_rotation([10, 20, 30], 20, 10)
+    assert node1.left.value == 10
+
+
+def test_rotate_left5():
+    """
+    Prove that the pivot node has the corrrect right child.
+    """
+    bst, node1, node2 = bst_left_rotation([10, 20, 30], 20, 10)
+    assert node1.right.value == 30
+
+
+def test_rotate_left6():
+    """
+    Prove that left_rotation() doesn't change size of a tree.
+    """
+    bst, node1, node2 = bst_left_rotation([5, 10, 20, 30], 20, 10)
+    assert bst.size() == 4
+
+
+def test_rotate_left7():
+    """
+    Prove that after left_rotation() the tree has a right head.
+    """
+    bst, node1, node2 = bst_left_rotation([5, 10, 20, 30], 20, 10)
+    assert bst.head.value == 5
+
+
+def test_rotate_left8():
+    """
+    Prove that the tree has an expected depth after a left_rotation.
+    """
+    bst, node1, node2 = bst_left_rotation([5, 10, 20, 30], 20, 10)
+    assert bst.depth() == 3
+
+
+def test_rotate_left9():
+    """
+    Prove that the pivot node has the corrrect left child.
+    """
+    bst, node1, node2 = bst_left_rotation([5, 10, 20, 30], 20, 10)
+    assert node1.left.value == 10
+
+
+def test_rotate_left10():
+    """
+    Prove that the pivot node has the corrrect right child.
+    """
+    bst, node1, node2 = bst_left_rotation([10, 20, 30], 20, 10)
+    assert node1.right.value == 30
