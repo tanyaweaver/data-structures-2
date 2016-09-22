@@ -3,6 +3,7 @@
 
 from __future__ import unicode_literals
 from trie import Trie
+import pytest
 
 
 def test_trie_init():
@@ -105,40 +106,65 @@ def test_insert7():
 
 
 def test_contains_False1():
+    """
+    Prove that contains() returns False if looking in an empty trie.
+    """
     trie = Trie()
     assert trie.contains('ma') is False
 
 
 def test_contains_False2():
-    trie = Trie()
-    trie.insert('man')
-    trie.insert('mantle')
+    """
+    Prove that contains() returns False if token is not in the trie.
+    """
+    trie = Trie(iterable=['man', 'mantle'])
     assert trie.contains('ma') is False
 
 
 def test_contains_False3():
-    trie = Trie()
-    trie.insert('man')
-    trie.insert('mantle')
+    """
+    Prove that contains() returns False if token is not in the trie.
+    """
+    trie = Trie(iterable=['man', 'mantle'])
     assert trie.contains('mant') is False
 
 
 def test_contains_False4():
-    trie = Trie()
-    trie.insert('man')
-    trie.insert('mantle')
+    """
+    Prove that contains() returns False if token is not in the trie.
+    """
+    trie = Trie(iterable=['man', 'mantle'])
     assert trie.contains('mantles') is False
 
 
 def test_contains_True1():
-    trie = Trie()
-    trie.insert('man')
-    trie.insert('mantle')
+    """
+    Prove that contains() returns True if token is in the trie.
+    """
+    trie = Trie(iterable=['man', 'mantle'])
     assert trie.contains('man') is True
 
 
 def test_contains_True2():
-    trie = Trie()
-    trie.insert('man')
-    trie.insert('mantle')
+    """
+    Prove that contains() returns True if token is in the trie.
+    """
+    trie = Trie(iterable=['man', 'mantle'])
     assert trie.contains('mantle') is True
+
+
+def test_token_type():
+    """
+    Prove that a Type error is raised if token is not a str.
+    """
+    with pytest.raises(TypeError):
+        trie = Trie(25637)
+
+
+def test_iterable_type():
+    """
+    Prove that a Type error is raised if iterable is not a list
+    or a tuple.
+    """
+    with pytest.raises(TypeError):
+        trie = Trie(iterable=1341345)
