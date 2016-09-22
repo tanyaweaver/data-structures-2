@@ -102,3 +102,43 @@ def test_insert7():
             }
         }
     }
+
+
+def test_contains_False1():
+    trie = Trie()
+    assert trie.contains('ma') is False
+
+
+def test_contains_False2():
+    trie = Trie()
+    trie.insert('man')
+    trie.insert('mantle')
+    assert trie.contains('ma') is False
+
+
+def test_contains_False3():
+    trie = Trie()
+    trie.insert('man')
+    trie.insert('mantle')
+    assert trie.contains('mant') is False
+
+
+def test_contains_False4():
+    trie = Trie()
+    trie.insert('man')
+    trie.insert('mantle')
+    assert trie.contains('mantles') is False
+
+
+def test_contains_True1():
+    trie = Trie()
+    trie.insert('man')
+    trie.insert('mantle')
+    assert trie.contains('man') is True
+
+
+def test_contains_True2():
+    trie = Trie()
+    trie.insert('man')
+    trie.insert('mantle')
+    assert trie.contains('mantle') is True

@@ -4,15 +4,6 @@
 from __future__ import unicode_literals
 
 
-# class Node(object):
-#     """Define class for a trie node."""
-#     def __init__(self, letter):
-#         """Create an instance of Node."""
-#         self._dict = {}
-#         self.letter = letter
-#         self._dict.detdefault(self.letter, {})
-
-
 class Trie(object):
     """Define class trie."""
     def __init__(self, iterable=None):
@@ -20,8 +11,22 @@ class Trie(object):
         self.head = {}
 
     def insert(self, token):
+        """Insert the value token into the trie."""
         token = token + '$'
         current = self.head
         for char in token:
             current.setdefault(char, {})
             current = current[char]
+
+    def contains(self, token):
+        """Return True if token is int trie. False - if notself."""
+        token = token + '$'
+        current = self.head
+        if current is None:
+            return False
+        for char in token:
+            if char in list(current.keys()):
+                current = current[char]
+            else:
+                return False
+        return True
