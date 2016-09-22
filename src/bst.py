@@ -8,13 +8,45 @@ from collections import deque
 class Node(object):
     """Define class for a node of a binary search tree."""
 
-    def __init__(self, val):
+    def __init__(self, val, left=None, right=None, parent=None):
         """Create an instance of Node."""
         self.value = val
-        self.left = None
-        self.right = None
+        self._left = left
+        self._right = right
         self.depth = 1
-        self.parent = None
+        self._parent = parent
+
+    @property
+    def left(self):
+        return self._left
+
+    @left.setter
+    def left(self, node):
+        self._left = node
+        if node is not None:
+            node._parent = self
+
+    @left.deleter
+    def left(self):
+        self._left = None
+
+    @property
+    def right(self):
+        return self._right
+
+    @right.setter
+    def right(self, node):
+        self._right = node
+        if node is not None:
+            node._parent = self
+
+    @right.deleter
+    def right(self):
+        self._right = None
+
+    @property
+    def parent(self):
+        return self._parent
 
     def find_depth(self):
         """Find depth property of a node."""
@@ -42,7 +74,6 @@ class Node(object):
             if new_node.value > current.value:
                 if current.right is None:
                     current.right = new_node
-                    new_node.parent = current
                     while len(visited_nodes) != 0:
                         visited_node = visited_nodes.pop()
                         visited_node.depth = visited_node.find_depth()
@@ -53,7 +84,6 @@ class Node(object):
             elif new_node.value < current.value:
                 if current.left is None:
                     current.left = new_node
-                    new_node.parent = current
                     while len(visited_nodes) != 0:
                         visited_node = visited_nodes.pop()
                         visited_node.depth = visited_node.find_depth()
@@ -91,6 +121,29 @@ class Node(object):
                 parent.depth = parent.find_depth()
                 parent = parent.parent
 
+    def _balance(self):
+        """
+        Return negative integer if the depth of the right child of the
+        node is bigger than the depth of the left child. Return positive
+        integer if the depth of the left child of the node is bigger than
+        the depth of the right child. Return 0 if depth of the left
+        and right child are the same.
+        """
+        depth_left, depth_right = 0, 0
+        if self.left:
+            depth_left = self.left.find_depth()
+        if self.right:
+            depth_right = self.right.find_depth()
+        return depth_left - depth_right
+
+    # def left_rotation(self):
+    #     grandparent = self.parent.parent
+    #     if grandparent._balance() == -2:
+    #         if grandparent.parent:
+    #             grandparent.parent.right = self.parent
+    #         self.parent.left = grandparent
+    #         grandparent.right = None
+
 
 class Bst(object):
     """Define binary search tree class."""
@@ -99,7 +152,7 @@ class Bst(object):
         """
         Create an instance of binary search tree.
         """
-        self.head = None
+        self._head = None
         self.counter = 0
         if iterable is not None:
             try:
@@ -107,6 +160,16 @@ class Bst(object):
                     self.insert(item)
             except TypeError:
                 self.insert(iterable)
+
+    @property
+    def head(self):
+        return self._head
+
+    @head.setter
+    def head(self, node):
+        self._head = node
+        if node is not None:
+            node._parent = None
 
     def return_node(self, value):
         """
@@ -282,3 +345,34 @@ class Bst(object):
                 replacement._delete_leaf()
                 node_to_delete.value = replacement.value
                 self.counter -= 1
+
+    def left_rotation(self, node1, node2):
+        #import pdb;pdb.set_trace()
+        if node2.parent:
+            node2.parent.right = node1
+        else:
+            self.head = node1
+        node2.right = None
+        node1.left = node2
+        node2.find_depth()
+        current = node1
+        while current:
+            current.find_depth()
+            current = current.parent
+
+    def right_rotation(self, node1, node2):
+        #import pdb;pdb.set_trace()
+        if node2.parent:
+            node2.parent.left = node1
+        else:
+            self.head = node1
+        node2.left = None
+        node1.right = node2
+        node2.find_depth()
+        current = node1
+        while current:
+            current.find_depth()
+            current = current.parent
+
+    def self_balance(self, start_node):
+        current = start_nodes
