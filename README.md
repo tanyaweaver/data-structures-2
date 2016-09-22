@@ -20,7 +20,7 @@
 * breadth_first(self) - Return a generator that will return the values in the tree using breadth-first traversal, one at a time.
 
 
-## 1. Trie
+## 2. Trie
 ###Methods
 * insert(self, token) -    Insert the value token into the trie. If token is already present, it will be ignored.
 * contains(self, token) - Returns True if token is present in the trie, False if not.
@@ -42,5 +42,5 @@ my_bst = Bst([1, 2, 3])
 To use trie
 ```python
 from trie import Trie
-my_trie = Trie('tokentoinsert')
+my_trie = Trie(token='tokentoinsert', iterable=['cat', 'dog'])
 ```
