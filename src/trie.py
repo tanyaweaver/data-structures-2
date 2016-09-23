@@ -46,3 +46,24 @@ class Trie(object):
             else:
                 return False
         return True
+
+    def trie_traversal(self, start):
+        """
+        Perform a full depth-first traversal of trie beginning at start.
+        """
+        current_dict = self.head
+        if current_dict == {}:
+            return None
+        pending = [start]
+        token = ''
+        counter = 0
+        while len(pending) != 0:
+            current_level = pending.pop()
+            for char in current_level:
+                current = char
+                if current == '$':
+                    yield token
+                else:
+                    token += current
+                    counter += 1
+                    pending.append(list(current_dict[current].keys()))
