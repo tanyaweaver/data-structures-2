@@ -46,3 +46,22 @@ class Trie(object):
             else:
                 return False
         return True
+
+    def create_token(token, current_dict):
+        for key in current_dict:
+            if key == '$':
+                yield token
+            else:
+                token += key
+                current_dict = current_dict[key]
+                tokens = create_token(token, current_dict)
+                for token in tokens:
+                    yield token
+
+    def depth_first(self, start):
+        token = start
+        try:
+            current_dict = self.head[start]
+        except KeyError:
+            yield None
+        yield create_token(token, current_dict)
