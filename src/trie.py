@@ -47,7 +47,7 @@ class Trie(object):
                 return False
         return True
 
-    def depth_first(self, start):
+    def traversal(self, start):
         """
         Perform a full depth-first traversal of the trie beginning at start.
         Return a generator containing all tokens in the trie.

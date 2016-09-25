@@ -14,56 +14,56 @@ TOKEN = [
 
 
 @pytest.mark.parametrize('iterable, start', TOKEN)
-def test_depth_first1(iterable, start):
-    """Prove that depth_first() generates expected tokens."""
+def test_traversal1(iterable, start):
+    """Prove that traversal() generates expected tokens."""
     iterable = iterable
     trie = Trie(iterable=iterable)
     result = []
-    for token in trie.depth_first(start):
+    for token in trie.traversal(start):
         result.append(token)
     for word in iterable:
         assert word in result
 
 
-def test_depth_first2():
-    """Prove that depth_first() generates None if the trie is empty."""
+def test_traversal2():
+    """Prove that traversal() generates None if the trie is empty."""
     trie = Trie()
     result = []
-    for token in trie.depth_first('a'):
+    for token in trie.traversal('a'):
         result.append(token)
     assert result == []
 
 
-def test_depth_first3():
+def test_traversal3():
     """
-    Prove that depth_first() returns None if start is not
+    Prove that traversal() returns None if start is not
     a key in the trie.head dictionary.
     """
     trie = Trie(iterable=['dome', 'bag', 'ice', 'bolt'])
     result = []
-    for token in trie.depth_first('m'):
+    for token in trie.traversal('m'):
         result.append(token)
     assert result == []
 
 
-def test_depth_first4():
-    """Prove that depth_first() generates expected tokens."""
+def test_traversal4():
+    """Prove that traversal() generates expected tokens."""
     trie = Trie(iterable=['dome', 'bag', 'ice', 'bolt'])
     result = []
-    for token in trie.depth_first('b'):
+    for token in trie.traversal('b'):
         result.append(token)
     for x in ['bag', 'bolt']:
         assert x in result
 
 
-def test_depth_first5():
+def test_traversal5():
     """
-    Prove that depth_first() doesn't generate extra tokens
+    Prove that traversal() doesn't generate extra tokens
     compared to what is expected.
     """
     trie = Trie(iterable=['dome', 'bag', 'ice', 'bolt'])
     result = []
-    for token in trie.depth_first('b'):
+    for token in trie.traversal('b'):
         result.append(token)
     assert len(result) == 2
 
