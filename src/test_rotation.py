@@ -3,10 +3,6 @@ from bst import Bst
 import pytest
 
 
-def test_find_depth1():
-    bst = Bst()
-    assert bst.depth() is None
-
 NODE_BALANCE = [
     ([10, 20, 30], 20, -1),
     ([10, 20, 30], 10, -2),
@@ -20,7 +16,7 @@ def test_balance_node(iterable, val, balance):
     """
     Prove that ._balance() returns an expected balance of a node.
     """
-    bst = Bst(iterable)
+    bst = Bst(iterable=iterable, self_balance=False)
     node = bst.return_node(val)
     assert node._balance() == balance
 
@@ -39,7 +35,7 @@ def test_rotate_left(iterable, val1, val2, breadth):
     Prove .left_rotation() results in the appropriate tree structure.
     Use breadth first traversal to access the resulted tree structure.
     """
-    bst = Bst(iterable)
+    bst = Bst(iterable=iterable, self_balance=False)
     result = []
     node1 = bst.return_node(val1)
     node2 = bst.return_node(val2)
@@ -62,7 +58,7 @@ def test_rotate_right(iterable, val1, val2, breadth):
     Prove .right_rotation() results in the appropriate tree structure.
     Use breadth first traversal to access the resulted tree structure.
     """
-    bst = Bst(iterable)
+    bst = Bst(iterable=iterable, self_balance=False)
     result = []
     node1 = bst.return_node(val1)
     node2 = bst.return_node(val2)
@@ -91,7 +87,7 @@ def test_self_balance3(iterable, breadth_tr):
     Prove that ._self_balance() results in the appropriate tree structure.
     Use breadth first traversal to access the resulted tree structure.
     """
-    bst = Bst(iterable)
+    bst = Bst(iterable=iterable, self_balance=False)
     bst._self_balance()
     result = []
     for x in bst.breadth_first():

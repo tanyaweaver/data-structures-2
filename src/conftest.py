@@ -37,26 +37,26 @@ LIST_30 = list(range(30))
 @pytest.fixture(scope='function')
 def bst_5_left():
     """Create a tree with 5 nodes, depth = 5."""
-    bst = Bst(BST_5_LEFT)
+    bst = Bst(iterable=BST_5_LEFT, self_balance=False)
     return bst
 
 
 @pytest.fixture(scope='function')
 def bst_15():
     """Create a bst with 15 nodes."""
-    bst = Bst(BST_15)
+    bst = Bst(iterable=BST_15, self_balance=False)
     return bst
 
 
 @pytest.fixture(scope='function')
 def bst_7():
     """Create a bst with 7 nodes."""
-    bst = Bst(BST_7)
+    bst = Bst(iterable=BST_7, self_balance=False)
     return bst
 
 
 @pytest.fixture(scope='function')
 def bst_list_30():
     """Create a bst with 30 nodes."""
-    bst_list_30 = Bst(LIST_30)
+    bst_list_30 = Bst(iterable=LIST_30, self_balance=False)
     return bst_list_30

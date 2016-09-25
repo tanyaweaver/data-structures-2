@@ -303,6 +303,9 @@ def test_insert_right_right(bst_3):
 
 
 def test_insert_parent1(bst_3):
+    """
+    Prove that the inserted node has the correct parrent.
+    """
     bst_3.insert(17)
     assert bst_3.node_right.right.parent.value == 15
 
@@ -408,6 +411,14 @@ def test_depth_node_insert5(node):
     assert node.depth == 5
 
 
+def test_find_depth1():
+    """
+    Prove that when bst is empty the depth returns None.
+    """
+    bst = Bst()
+    assert bst.depth() is None
+
+
 def test_depth_tree_insert1(bst_empty):
     """
     Test whether bst.depth() returns appropriate depth.
@@ -429,9 +440,9 @@ def test_depth_tree_insert3(bst_empty):
     """
     Test whether bst.depth() returns appropriate depth.
     """
-    bst_empty.insert(4)
-    bst_empty.insert(5)
-    bst_empty.insert(6)
+    bst_empty.insert(4, self_balance=False)
+    bst_empty.insert(5, self_balance=False)
+    bst_empty.insert(6, self_balance=False)
     assert bst_empty.depth() == 3
 
 
@@ -512,5 +523,5 @@ def test_init_iterable(iterable, depth):
     Test whether bst has the expected depth after initiation
     with an iterable.
     """
-    bst = Bst(iterable)
+    bst = Bst(iterable=iterable, self_balance=False)
     assert bst.depth() == depth

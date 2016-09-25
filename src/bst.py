@@ -129,7 +129,6 @@ class Node(object):
         the depth of the right child. Return 0 if depth of the left
         and right child are the same.
         """
-        #import pdb; pdb.set_trace()
         depth_left, depth_right = 0, 0
         if self.left:
             depth_left = self.left.depth
@@ -141,25 +140,28 @@ class Node(object):
 class Bst(object):
     """Define binary search tree class."""
 
-    def __init__(self, iterable=None):
+    def __init__(self, iterable=None, self_balance=True):
         """
-        Create an instance of binary search tree.
+        Create an instance of binary search tree. By default, the tree
+        performs self-balancing. If self_balance=False, no self_balancing.
         """
         self._head = None
         self.counter = 0
         if iterable is not None:
             try:
                 for item in iterable:
-                    self.insert(item)
+                    self.insert(item, self_balance=self_balance)
             except TypeError:
                 self.insert(iterable)
 
     @property
     def head(self):
+        """Get head property."""
         return self._head
 
     @head.setter
     def head(self, node):
+        """Set head property to <node>."""
         self._head = node
         if node is not None:
             node._parent = None
@@ -180,11 +182,11 @@ class Bst(object):
                     current = current.left
         return False
 
-    def insert(self, value):
+    def insert(self, value, self_balance=True):
         """
         Insert the value into bst. If value is already present,
-        it will be ignored. The tree performs self-balancing after
-        the node insertion.
+        it will be ignored. By default, the tree performs self-balancing after
+        the node insertion. If self_balance=False, no self_balancing.
         """
         new_node = Node(value)
         if self.head is None:
@@ -193,8 +195,8 @@ class Bst(object):
         else:
             if self.head._insert_node(new_node):
                 self.counter += 1
-
-        # self._self_balance()
+        if self_balance is True:
+            self._self_balance()
 
     def contains(self, value):
         """
@@ -216,6 +218,7 @@ class Bst(object):
     def depth(self):
         """
         Return an integer representing the total levels in a tree.
+        Return None if treee is empty
         """
         if self.head is None:
             return None
@@ -317,10 +320,11 @@ class Bst(object):
                     else:
                         break
 
-    def delete(self, value):
+    def delete(self, value, self_balance=True):
         """
         Delete a node from the tree. Ignore the node if it's not in the tree.
-        The tree performs self-balancing after the deletion.
+        By default, the tree performs self-balancing after the deletion. If
+        self_balance=False, no self-balancing.
         """
         node_to_delete = self.return_node(value)
         if node_to_delete:
@@ -343,9 +347,14 @@ class Bst(object):
                 replacement._delete_leaf()
                 node_to_delete.value = replacement.value
                 self.counter -= 1
-            # self._self_balance()
+            if self_balance is True:
+                self._self_balance()
 
     def left_rotation(self, node1, node2):
+        """
+        Rotate right node1 and node2. Adjust depth for all nodes
+        up from node2.
+        """
         if node2.parent:
             if node2.parent.right is node2:
                 node2.parent.right = node1
@@ -362,12 +371,12 @@ class Bst(object):
         while current:
             current.find_depth()
             current = current.parent
-        # current = node1
-        # while current:
-        #     current.find_depth()
-        #     current = current.parent
 
     def right_rotation(self, node1, node2):
+        """
+        Rotate left node1 and node2. Adjust depth for all nodes
+        up from node2.
+        """
         if node2.parent:
             if node2.parent.right is node2:
                 node2.parent.right = node1
@@ -384,15 +393,12 @@ class Bst(object):
         while current:
             current.find_depth()
             current = current.parent
-        # current = node1
-        # while current:
-        #     current.find_depth()
-        #     current = current.parent
 
     def _self_balance(self):
         """
-        Self-balance. Start checking balance from node and continue all way up
-        the tree. No self-balancing is performed when bst.depth() < 3.
+        Balance the tree. Start cheking balance of each node in the tree
+        starting with the head. If balance of a node > 1 or < -1, do balancing.
+        As a result, no node in the tree will have balance > 1 or < -1.
         """
         pending = []
         for x in self.breadth_first():

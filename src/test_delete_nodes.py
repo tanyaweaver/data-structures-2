@@ -1,5 +1,6 @@
 from __future__ import unicode_literals
 from bst import Bst
+import pytest
 
 
 def test_delete_leaf1(bst_15):
@@ -99,6 +100,27 @@ def test_delete_node_head1():
     assert bst1.head is None
 
 
+DEL_BAL = [
+    (20, [7, 5, 10, 2, 6, 8, 15, 1, 3]),
+    (10, [8, 5, 15, 2, 7, 20, 1, 3, 6])
+]
+
+
+@pytest.mark.parametrize('val, breadth_tr', DEL_BAL)
+def test_del_self_bal(val, breadth_tr):
+    """
+    Prove that the tree has an appropriate structure after deletion
+    of a node. Deletion method includes tree self-balancing.
+    Access tree structure using breadth first traversal.
+    """
+    bst = Bst([10, 5, 15, 2, 7, 20, 1, 3, 6, 8])
+    bst.delete(val)
+    result = []
+    for x in bst.breadth_first():
+        result.append(x)
+    assert result == breadth_tr
+
+
 def test_delete_node1(bst_15):
     """
     Prove that after deletion of a node,
@@ -158,7 +180,7 @@ def test_delete_node7(bst_15):
     Prove that after deletion of a node,
     the replacement node has the right child of the deleted node.
     """
-    bst_15.delete(5)
+    bst_15.delete(5, self_balance=False)
     assert bst_15.return_node(6).right.value == 7
 
 
@@ -185,7 +207,7 @@ def test_delete_node10(bst_15):
     Prove that after deletion of a node,
     the tree has the appropriate depth.
     """
-    bst_15.delete(5)
+    bst_15.delete(5, self_balance=False)
     assert bst_15.depth() == 5
 
 
