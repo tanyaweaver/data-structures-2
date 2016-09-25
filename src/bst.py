@@ -350,7 +350,7 @@ class Bst(object):
             if self_balance is True:
                 self._self_balance()
 
-    def left_rotation(self, node1, node2):
+    def _left_rotation(self, node1, node2):
         """
         Rotate right node1 and node2. Adjust depth for all nodes
         up from node2.
@@ -372,7 +372,7 @@ class Bst(object):
             current.find_depth()
             current = current.parent
 
-    def right_rotation(self, node1, node2):
+    def _right_rotation(self, node1, node2):
         """
         Rotate left node1 and node2. Adjust depth for all nodes
         up from node2.
@@ -410,19 +410,19 @@ class Bst(object):
                 left_bal = node.left._balance()
                 child = node.left
                 if left_bal > 0:
-                    self.right_rotation(child, node)
+                    self._right_rotation(child, node)
                 else:
                     grandchild = child.right
-                    self.left_rotation(grandchild, child)
-                    self.right_rotation(grandchild, node)
+                    self._left_rotation(grandchild, child)
+                    self._right_rotation(grandchild, node)
                 return self._self_balance()
             elif curr_balance < -1:
                 right_bal = node.right._balance()
                 child = node.right
                 if right_bal < 0:
-                    self.left_rotation(child, node)
+                    self._left_rotation(child, node)
                 else:
                     grandchild = child.left
-                    self.right_rotation(grandchild, child)
-                    self.left_rotation(grandchild, node)
+                    self._right_rotation(grandchild, child)
+                    self._left_rotation(grandchild, node)
                 return self._self_balance()

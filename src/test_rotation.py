@@ -32,14 +32,14 @@ LEFT_ROT = [
 @pytest.mark.parametrize('iterable, val1, val2, breadth', LEFT_ROT)
 def test_rotate_left(iterable, val1, val2, breadth):
     """
-    Prove .left_rotation() results in the appropriate tree structure.
+    Prove ._left_rotation() results in the appropriate tree structure.
     Use breadth first traversal to access the resulted tree structure.
     """
     bst = Bst(iterable=iterable, self_balance=False)
     result = []
     node1 = bst.return_node(val1)
     node2 = bst.return_node(val2)
-    bst.left_rotation(node1, node2)
+    bst._left_rotation(node1, node2)
     for x in bst.breadth_first():
         result.append(x)
     assert result == breadth
@@ -55,14 +55,14 @@ RIGHT_ROT = [
 @pytest.mark.parametrize('iterable, val1, val2, breadth', RIGHT_ROT)
 def test_rotate_right(iterable, val1, val2, breadth):
     """
-    Prove .right_rotation() results in the appropriate tree structure.
+    Prove ._right_rotation() results in the appropriate tree structure.
     Use breadth first traversal to access the resulted tree structure.
     """
     bst = Bst(iterable=iterable, self_balance=False)
     result = []
     node1 = bst.return_node(val1)
     node2 = bst.return_node(val2)
-    bst.right_rotation(node1, node2)
+    bst._right_rotation(node1, node2)
     for x in bst.breadth_first():
         result.append(x)
     assert result == breadth
