@@ -1,9 +1,71 @@
 #!/usr/bin/env python
 # -*- coding: utf -8 -*-
 
-from __future__ import unicode_literals
 from trie import Trie
 import pytest
+
+TOKEN = [
+    (['c'], 'c'),
+    (['cat'], 'c'),
+    (['c', 'ca', 'cat', 'cats', 'catss'], 'c'),
+    (['cat', 'code', 'codes', 'clap', 'clown'], 'c'),
+    (['ca¡', 'ce¥abc', 'cs§'], 'c')
+]
+
+
+@pytest.mark.parametrize('iterable, start', TOKEN)
+def test_traversal1(iterable, start):
+    """Prove that traversal() generates expected tokens."""
+    iterable = iterable
+    trie = Trie(iterable=iterable)
+    result = []
+    for token in trie.traversal(start):
+        result.append(token)
+    for word in iterable:
+        assert word in result
+
+
+def test_traversal2():
+    """Prove that traversal() generates None if the trie is empty."""
+    trie = Trie()
+    result = []
+    for token in trie.traversal('a'):
+        result.append(token)
+    assert result == []
+
+
+def test_traversal3():
+    """
+    Prove that traversal() returns None if start is not
+    a key in the trie.head dictionary.
+    """
+    trie = Trie(iterable=['dome', 'bag', 'ice', 'bolt'])
+    result = []
+    for token in trie.traversal('m'):
+        result.append(token)
+    assert result == []
+
+
+def test_traversal4():
+    """Prove that traversal() generates expected tokens."""
+    trie = Trie(iterable=['dome', 'bag', 'ice', 'bolt'])
+    result = []
+    for token in trie.traversal('b'):
+        result.append(token)
+    for x in ['bag', 'bolt']:
+        assert x in result
+
+
+def test_traversal5():
+    """
+    Prove that traversal() doesn't generate extra tokens
+    compared to what is expected.
+    """
+    trie = Trie(iterable=['dome', 'bag', 'ice', 'bolt'])
+    result = []
+    for token in trie.traversal('b'):
+        result.append(token)
+    assert len(result) == 2
 
 
 def test_trie_init():
@@ -153,18 +215,30 @@ def test_contains_True2():
     assert trie.contains('mantle') is True
 
 
-def test_token_type():
+def test_insert_type_error():
     """
-    Prove that a Type error is raised if token is not a str.
+    Prove that a Type error is raised when trying to
+    insert a token that is not a str.
     """
     with pytest.raises(TypeError):
-        trie = Trie(25637)
+        trie = Trie()
+        trie.insert(25637)
+
+
+def test_insert_value_error():
+    """
+    Prove that a value error is raised when trying to insert a token
+    that contains '$' character.
+    """
+    with pytest.raises(ValueError):
+        trie = Trie()
+        trie.insert('abc$abc')
 
 
 def test_iterable_type():
     """
-    Prove that a Type error is raised if iterable is not a list
-    or a tuple.
+    Prove that a Type error is raised when trying to create a trie
+    with an iterable that is not a list or a tuple.
     """
     with pytest.raises(TypeError):
         trie = Trie(iterable=1341345)

@@ -24,6 +24,8 @@
 ###Methods
 * insert(self, token) -    Insert the value token into the trie. If token is already present, it will be ignored.
 * contains(self, token) - Returns True if token is present in the trie, False if not.
+* traversal(start) - Perform a full depth-first traversal of the graph beginning at start.
+Return a generator containing all tokens in the trie
 
 
 # Instructions
@@ -42,5 +44,6 @@ my_bst = Bst([1, 2, 3])
 To use trie
 ```python
 from trie import Trie
-my_trie = Trie(token='tokentoinsert', iterable=['cat', 'dog'])
+my_trie = Trie(token='tokentoinsert', iterable=['cat', 'dog', 'creek'])
+my_trie.traversal('c') #=> ['cat', 'creek']
 ```
