@@ -50,14 +50,11 @@ class Node(object):
 
     def find_depth(self):
         """Find depth property of a node."""
-        if self.left is not None:
-            left_depth = self.left.depth
-        else:
-            left_depth = 0
-        if self.right is not None:
-            right_depth = self.right.depth
-        else:
-            right_depth = 0
+        left_depth, right_depth = 0, 0
+        if self.left:
+            left_depth = self.left.find_depth()
+        if self.right:
+            right_depth = self.right.find_depth()
         self.depth = 1 + max(left_depth, right_depth)
         return self.depth
 
@@ -135,14 +132,6 @@ class Node(object):
         if self.right:
             depth_right = self.right.find_depth()
         return depth_left - depth_right
-
-    # def left_rotation(self):
-    #     grandparent = self.parent.parent
-    #     if grandparent._balance() == -2:
-    #         if grandparent.parent:
-    #             grandparent.parent.right = self.parent
-    #         self.parent.left = grandparent
-    #         grandparent.right = None
 
 
 class Bst(object):
@@ -347,13 +336,18 @@ class Bst(object):
                 self.counter -= 1
 
     def left_rotation(self, node1, node2):
-        #import pdb;pdb.set_trace()
         if node2.parent:
-            node2.parent.right = node1
+            if node2.parent.right is node2:
+                node2.parent.right = node1
+            else:
+                node2.parent.left = node1
         else:
             self.head = node1
         node2.right = None
-        node1.left = node2
+        add_node2_to = node1
+        while add_node2_to.left:
+            add_node2_to = add_node2_to.left
+        add_node2_to.left = node2
         node2.find_depth()
         current = node1
         while current:
@@ -361,15 +355,53 @@ class Bst(object):
             current = current.parent
 
     def right_rotation(self, node1, node2):
-        #import pdb;pdb.set_trace()
         if node2.parent:
-            node2.parent.left = node1
+            if node2.parent.right is node2:
+                node2.parent.right = node1
+            else:
+                node2.parent.left = node1
         else:
             self.head = node1
         node2.left = None
-        node1.right = node2
+        add_node2_to = node1
+        while add_node2_to.right:
+            add_node2_to = add_node2_to.right
+        add_node2_to.right = node2
         node2.find_depth()
         current = node1
         while current:
             current.find_depth()
             current = current.parent
+
+    def _self_balance(self):
+        """
+        Self-balance. Start checking balance from node and continue all way up
+        the tree. No self-balancing is performed when bst.depth() < 3.
+        """
+        pending = []
+        for x in self.breadth_first():
+            pending.append(x)
+        import pdb; pdb.set_trace()
+        for val in pending:
+            node = self.return_node(val)
+            curr_balance = node._balance()
+            if curr_balance > 1:
+                left_bal = node.left._balance()
+                child = node.left
+                if left_bal > 0:
+                    self.right_rotation(child, node)
+                else:
+                    grandchild = child.right
+                    self.left_rotation(grandchild, child)
+                    self.right_rotation(grandchild, node)
+                return self._self_balance()
+            elif curr_balance < -1:
+                right_bal = node.right._balance()
+                child = node.right
+                if right_bal < 0:
+                    self.left_rotation(child, node)
+                else:
+                    grandchild = child.left
+                    self.right_rotation(grandchild, child)
+                    self.left_rotation(grandchild, node)
+                return self._self_balance()
