@@ -26,6 +26,14 @@
 * contains(self, token) - Returns True if token is present in the trie, False if not.
 
 
+## 3. Merge Sort algorithm
+Conceptually, a merge sort works as follows:
+* Divide the unsorted list into n sublists, each containing 1 element (a list of 1 element is considered sorted).
+* Repeatedly merge sublists to produce new sorted sublists until there is only 1 sublist remaining. This will be the sorted list.
+
+Source: https://en.wikipedia.org/wiki/Merge_sort
+
+
 # Instructions
 ## Usage
 Clone the repo and install modules:
@@ -44,3 +52,8 @@ To use trie
 from trie import Trie
 my_trie = Trie(token='tokentoinsert', iterable=['cat', 'dog'])
 ```
+
+To use merge sort
+```
+$python src/mergesort.py
+mergesort([5, 2, 4]) # => [2, 4, 5]
