@@ -63,30 +63,40 @@ RADIX = [
 
 @pytest.mark.parametrize('num, position, digit', GET_DIGIT)
 def test_get_digit(num, position, digit):
+    """Prove that _get_digit() return an expected digit."""
     assert _get_digit(num, position) == digit
 
 
 @pytest.mark.parametrize('a_list, position, q_list', BUCKETS)
 def test_put_nums_in_buckets(a_list, position, q_list):
+    """Prove that _put_nums_in_buckets() does so correctly."""
     assert _put_nums_in_buckets(a_list, position) == q_list
 
 
 @pytest.mark.parametrize('a_list, result', ITERS)
 def test_find_num_of_iterations(a_list, result):
+    """
+    Prove that _find_num_of_iterations() returns the correct number.
+    """
     assert _find_num_of_iterations(a_list) == result
 
 
 @pytest.mark.parametrize('q_list, result', DEQUES)
 def test_dequeue_queues_into_list(q_list, result):
+    """
+    Prove that _dequeue_queues_into_list() returns the expected list.
+    """
     assert _dequeue_queues_into_list(q_list) == result
 
 
 @pytest.mark.parametrize('a_list, result', RADIX)
 def test_radixsort(a_list, result):
+    """Prove that radixsort() returns appropriately sorted list."""
     assert radixsort(a_list) == result
 
 
 def test_radixsort_is_stable():
+    """Prove that radix sort is stable."""
     a_list = [15, 15, 15, 15, 15]
     result = radixsort(a_list)
     for i in range(len(a_list)):
@@ -94,4 +104,5 @@ def test_radixsort_is_stable():
 
 
 def test_radixsort_empty_list():
+    """Prove that radixsort([]) returns an empty list."""
     assert radixsort([]) == []

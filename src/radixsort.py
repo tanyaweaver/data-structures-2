@@ -7,15 +7,19 @@ from math import log10
 
 
 def _get_digit(num, position):
+    """Find digit at particular decimal position in a number."""
     return num // 10 ** position % 10
 
 
 def _put_nums_in_buckets(a_list, position):
+    """
+    Queue numbers into appropriate buckets based on the value
+    at the particular decimal position.
+    """
     q_list = []
     for x in range(10):
         queue_ = deque()
         q_list.append(queue_)
-    # import pdb; pdb.set_trace()
     for num in a_list:
         digit = _get_digit(num, position)
         q_list[digit].append(num)
@@ -23,11 +27,16 @@ def _put_nums_in_buckets(a_list, position):
 
 
 def _find_num_of_iterations(a_list):
+    """
+    Find number of the sorting iterations to be performed
+    (this equals number of digits in the biggest number in the list).
+    """
     num_of_iterations = int(log10(max(a_list)) + 1)
     return num_of_iterations
 
 
 def _dequeue_queues_into_list(q_list):
+    """Dequeue all the buckets in the pending list into a list."""
     a_list = []
     for deque_ in q_list:
         while len(deque_) != 0:
@@ -36,6 +45,7 @@ def _dequeue_queues_into_list(q_list):
 
 
 def radixsort(a_list):
+    """Sort a list using radix sort."""
     if len(a_list) != 0:
         num_of_iterations = _find_num_of_iterations(a_list)
         pos = 0
