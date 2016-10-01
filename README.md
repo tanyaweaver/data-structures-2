@@ -25,6 +25,10 @@
 * insert(self, token) -    Insert the value token into the trie. If token is already present, it will be ignored.
 * contains(self, token) - Returns True if token is present in the trie, False if not.
 
+## 3. Sorting Algorithms
+* Radix sort - A non-comparative integer sorting algorithm that sorts data with integer keys by grouping keys by the individual digits 
+which share the same significant position and value. (source: https://en.wikipedia.org/wiki/Radix_sort)
+
 
 # Instructions
 ## Usage
@@ -43,4 +47,9 @@ To use trie
 ```python
 from trie import Trie
 my_trie = Trie(token='tokentoinsert', iterable=['cat', 'dog'])
+```
+To use Radix Sort
+```
+$python src/radixsort.py
+radixsort([7, 1, 35, 6]) # => [1, 6, 7, 35]
 ```
