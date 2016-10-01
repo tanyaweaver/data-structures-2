@@ -3,7 +3,13 @@
 
 from __future__ import division, unicode_literals
 from collections import deque
-from radixsort import get_digit, put_nums_in_buckets, find_num_of_iterations, dequeue_queues_into_list, radixsort
+from radixsort import (
+    _get_digit,
+    _put_nums_in_buckets,
+    _find_num_of_iterations,
+    _dequeue_queues_into_list,
+    radixsort
+)
 import pytest
 
 GET_DIGIT = [
@@ -57,22 +63,22 @@ RADIX = [
 
 @pytest.mark.parametrize('num, position, digit', GET_DIGIT)
 def test_get_digit(num, position, digit):
-    assert get_digit(num, position) == digit
+    assert _get_digit(num, position) == digit
 
 
 @pytest.mark.parametrize('a_list, position, q_list', BUCKETS)
 def test_put_nums_in_buckets(a_list, position, q_list):
-    assert put_nums_in_buckets(a_list, position) == q_list
+    assert _put_nums_in_buckets(a_list, position) == q_list
 
 
 @pytest.mark.parametrize('a_list, result', ITERS)
 def test_find_num_of_iterations(a_list, result):
-    assert find_num_of_iterations(a_list) == result
+    assert _find_num_of_iterations(a_list) == result
 
 
 @pytest.mark.parametrize('q_list, result', DEQUES)
 def test_dequeue_queues_into_list(q_list, result):
-    assert dequeue_queues_into_list(q_list) == result
+    assert _dequeue_queues_into_list(q_list) == result
 
 
 @pytest.mark.parametrize('a_list, result', RADIX)
@@ -85,3 +91,7 @@ def test_radixsort_is_stable():
     result = radixsort(a_list)
     for i in range(len(a_list)):
         assert a_list[i] is result[i]
+
+
+def test_radixsort_empty_list():
+    assert radixsort([]) == []
