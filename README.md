@@ -26,6 +26,9 @@
 * contains(self, token) - Returns True if token is present in the trie, False if not.
 
 
+## 3. Sorting Algorithms
+* Quicksort - it is a divide and conquer algorithm. Quicksort first divides a large array into two smaller sub-arrays: the low elements and the high elements. Quicksort can then recursively sort the sub-arrays (source: https://en.wikipedia.org/wiki/Quicksort)
+
 # Instructions
 ## Usage
 Clone the repo and install modules:
@@ -43,4 +46,10 @@ To use trie
 ```python
 from trie import Trie
 my_trie = Trie(token='tokentoinsert', iterable=['cat', 'dog'])
+```
+
+To use quicksort
+```
+$python run src/quicksort.py
+quicksort([5, 2, 8]) # => [2, 5, 8]
 ```
