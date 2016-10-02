@@ -57,7 +57,9 @@ RADIX = [
     ([48, 1, 107], [1, 48, 107]),
     ([100, 2, 13, 8954, 4], [2, 4, 13, 100, 8954]),
     ([1, 6544, 4687, 100, 76542], [1, 100, 4687, 6544, 76542]),
-    ([198563, 8954, 41, 0, 100, 2, 0], [0, 0, 2, 41, 100, 8954, 198563])
+    ([198563, 8954, 41, 0, 100, 2, 0], [0, 0, 2, 41, 100, 8954, 198563]),
+    ([0], [0]),
+    ([], [])
 ]
 
 
@@ -101,8 +103,3 @@ def test_radixsort_is_stable():
     result = radixsort(a_list)
     for i in range(len(a_list)):
         assert a_list[i] is result[i]
-
-
-def test_radixsort_empty_list():
-    """Prove that radixsort([]) returns an empty list."""
-    assert radixsort([]) == []

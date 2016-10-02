@@ -46,7 +46,7 @@ def _dequeue_queues_into_list(q_list):
 
 def radixsort(a_list):
     """Sort a list using radix sort."""
-    if len(a_list) != 0:
+    if a_list != [] and a_list != [0]:
         num_of_iterations = _find_num_of_iterations(a_list)
         pos = 0
         while pos < num_of_iterations:
